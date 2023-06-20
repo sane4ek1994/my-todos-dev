@@ -11,13 +11,15 @@ export type TTasks = {
 }
 
 type TProps = {
+    id: string
     title: string
     filter: TFilterTask
     tasks: TTasks[]
-    addTask: (title: string) => void
-    removeTask: (id: string) => void
-    changeFilter: (filter: TFilterTask) => void
-    onChangeIsDone: (id: string, isDone: boolean) => void
+    addTask: (title: string, todolistId: string) => void
+    removeTask: (id: string, todolistId: string) => void
+    changeFilter: (filter: TFilterTask, todoListId: string) => void
+    onChangeIsDone: (id: string, isDone: boolean, todolistId: string) => void
+    removeTodolist: (todolistId:string) => void
 }
 
 const TodoList = (props: TProps) => {
@@ -31,7 +33,7 @@ const TodoList = (props: TProps) => {
     }
     const addTaskHandler = () => {
         if (newTitle.trim()) {
-            props.addTask(newTitle.trim())
+            props.addTask(newTitle.trim(), props.id)
             setNewTitle('')
             return
         }
@@ -47,27 +49,32 @@ const TodoList = (props: TProps) => {
 
 
     const removeTask = (id: string) => {
-        props.removeTask(id)
+        props.removeTask(id, props.id)
     }
 
     const onChangeIsDoneHandler = (id: string, e: ChangeEvent<HTMLInputElement>) => {
-        props.onChangeIsDone(id, e.currentTarget.checked)
+        props.onChangeIsDone(id, e.currentTarget.checked, props.id)
     }
 
     const changeFiltered = (valueFilter: TFilterTask) => {
-        props.changeFilter(valueFilter)
+        props.changeFilter(valueFilter, props.id)
+    }
+
+    const removeTodolist = () => {
+        props.removeTodolist(props.id)
     }
 
 
     return (
         <div>
             <h2>{props.title}</h2>
+            <Button callback={removeTodolist} name='✖️'/>
             <Input type='text' onKeyDown={onAddKeyHandler} className={error ? 'error' : ''}
                    onChange={onChangeTitleHandler} value={newTitle}/>
             <Button callback={addTaskHandler} name='➕'/>
             {error && <div className='error-message'>{error}</div>}
             <ul ref={parent}>
-                {props.tasks.map(t => (
+                {props.tasks?.map(t => (
                     <li key={t.id} className={t.isDone ? 'is-done' : ''}>
                         <Button name='✖️' callback={() => {
                             removeTask(t.id)
