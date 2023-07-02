@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import TodoList from "./componets/TodoList";
 import {v1} from "uuid";
 import S from './App.module.css'
-
+import {AddItemForm} from "./componets/AddItemForm";
 
 export type TFilterTask = 'all' | 'completed' | 'active'
 
@@ -40,6 +40,19 @@ function App() {
         ]
     });
 
+    const addTodoList = (title: string) => {
+        let todolist: TTodoList = {id: v1(), title, filter: "all"}
+        setCategories([todolist, ...categories])
+        setList({...list, [todolist.id]: []})
+    }
+
+    const onChangeTaskTitle = (id: string, title: string, todoListId: string) => {
+        setList({...list, [todoListId]: list[todoListId].map(list => list.id === id ? {...list, title} : list)})
+    }
+
+    const onChangeTodoListTitle = (id: string, title: string) => {
+        setCategories([...categories.map(category => category.id === id ? {...category, title}: category)])
+    }
     const addTask = (title: string, todolistId: string) => {
         setList({...list, [todolistId]: [{id: v1(), title: title, isDone: false}, ...list[todolistId]]})
     }
@@ -64,6 +77,7 @@ function App() {
 
     return (
         <div className={S.App}>
+            <AddItemForm addItem={addTodoList}/>
             {categories?.map(tl => {
                 const filterTaskHandler = () => {
                     let filteredTask = list[tl.id]
@@ -85,6 +99,8 @@ function App() {
                     addTask={addTask}
                     changeFilter={changeFilter}
                     removeTask={removeTask}
+                    onChangeTodoListTitle={onChangeTodoListTitle}
+                    onChangeTaskTitle={onChangeTaskTitle}
                     removeTodolist={removeTodolist}
                     onChangeIsDone={onChangeIsDone}
                 />

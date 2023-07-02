@@ -1,8 +1,10 @@
-import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
+import React, {ChangeEvent } from 'react';
 import {TFilterTask} from "../App";
 import {useAutoAnimate} from '@formkit/auto-animate/react'
 import Button from "./Button";
 import Input from "./Input";
+import {AddItemForm} from "./AddItemForm";
+import {EditableSpan} from "./EditableSpan";
 
 export type TTasks = {
     id: string
@@ -15,36 +17,21 @@ type TProps = {
     title: string
     filter: TFilterTask
     tasks: TTasks[]
+    onChangeTodoListTitle: (id: string, newTitle: string) => void
+    onChangeTaskTitle: (id: string, newTitle: string, todoListId: string) => void
     addTask: (title: string, todolistId: string) => void
     removeTask: (id: string, todolistId: string) => void
     changeFilter: (filter: TFilterTask, todoListId: string) => void
     onChangeIsDone: (id: string, isDone: boolean, todolistId: string) => void
-    removeTodolist: (todolistId:string) => void
+    removeTodolist: (todolistId: string) => void
 }
 
 const TodoList = (props: TProps) => {
-
     const [parent] = useAutoAnimate()
-    const [newTitle, setNewTitle] = useState('');
-    const [error, setError] = useState<string | null>(null);
-    const onChangeTitleHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        setError(null)
-        setNewTitle(e.currentTarget.value)
-    }
-    const addTaskHandler = () => {
-        if (newTitle.trim()) {
-            props.addTask(newTitle.trim(), props.id)
-            setNewTitle('')
-            return
-        }
 
-        return setError('Title is required!')
-    }
 
-    const onAddKeyHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-        if (e.key === 'Enter') {
-            addTaskHandler()
-        }
+    const addTask = (title: string) => {
+        props.addTask(title, props.id)
     }
 
 
@@ -60,29 +47,33 @@ const TodoList = (props: TProps) => {
         props.changeFilter(valueFilter, props.id)
     }
 
+    const updateTodoListTitle = (newTitle: string) => props.onChangeTodoListTitle(props.id, newTitle)
+
     const removeTodolist = () => {
         props.removeTodolist(props.id)
     }
 
-
     return (
         <div>
-            <h2>{props.title}</h2>
+            <h2><EditableSpan title={props.title} onChangeTitle={(newTitle) => updateTodoListTitle(newTitle)}/></h2>
             <Button callback={removeTodolist} name='✖️'/>
-            <Input type='text' onKeyDown={onAddKeyHandler} className={error ? 'error' : ''}
-                   onChange={onChangeTitleHandler} value={newTitle}/>
-            <Button callback={addTaskHandler} name='➕'/>
-            {error && <div className='error-message'>{error}</div>}
+            <AddItemForm addItem={addTask}/>
             <ul ref={parent}>
-                {props.tasks?.map(t => (
-                    <li key={t.id} className={t.isDone ? 'is-done' : ''}>
-                        <Button name='✖️' callback={() => {
-                            removeTask(t.id)
-                        }}/>
+                {props.tasks?.map(t => {
+                    const updateTitleSpan = (newTitle: string) => {
+                        props.onChangeTaskTitle(t.id, newTitle, props.id)
+                    }
+
+                    const changeRemoveTask = () => {
+                        removeTask(t.id)
+                    }
+
+                    return <li key={t.id} className={t.isDone ? 'is-done' : ''}>
+                        <Button name='✖️' callback={changeRemoveTask}/>
                         <Input checked={t.isDone} onChange={(e) => onChangeIsDoneHandler(t.id, e)} type="checkbox"/>
-                        <span>{t.title}</span>
+                        <EditableSpan title={t.title} onChangeTitle={newTitle => updateTitleSpan(newTitle)}/>
                     </li>
-                ))}
+                })}
             </ul>
             <Button className={props.filter === 'all' ? 'activeClass' : ''}
                     name='All'
@@ -96,5 +87,4 @@ const TodoList = (props: TProps) => {
         </div>
     );
 };
-
 export default TodoList;
