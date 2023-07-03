@@ -102,10 +102,10 @@ function App() {
                 </Toolbar>
             </AppBar>
             <Container fixed>
-                <Grid container style={{padding: '10px', marginBottom: '10px'}}>
+                <Grid container justifyContent="center" style={{padding: '10px', marginBottom: '10px'}}>
                     <AddItemForm addItem={addTodoList}/>
                 </Grid>
-                <Grid container spacing={3}>
+                <Grid container spacing={3} justifyContent="center">
                     {categories?.map(tl => {
                         const filterTaskHandler = () => {
                             let filteredTask = list[tl.id]
