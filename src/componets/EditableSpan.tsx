@@ -1,4 +1,5 @@
 import {ChangeEvent, useState} from 'react';
+import {TextField} from "@mui/material";
 
 type TEditableSpan = {
     title: string
@@ -21,7 +22,7 @@ export const EditableSpan = ({title, onChangeTitle}: TEditableSpan) => {
 
     return (
         editMode ?
-            <input onBlur={activateViewMode} autoFocus onChange={changeNewTitle} value={newTitle} type="text"/>
+            <TextField variant="standard" onBlur={activateViewMode} autoFocus onChange={changeNewTitle} value={newTitle} type="text"/>
             : <span onDoubleClick={activateEditMode}>{title}</span>
     );
 };

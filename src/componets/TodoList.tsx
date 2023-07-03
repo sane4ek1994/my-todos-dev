@@ -1,10 +1,10 @@
 import {ChangeEvent} from 'react';
 import {TFilterTask} from "../App";
 import {useAutoAnimate} from '@formkit/auto-animate/react'
-import Button from "./Button";
-import Input from "./Input";
 import {AddItemForm} from "./AddItemForm";
 import {EditableSpan} from "./EditableSpan";
+import {Button, Checkbox, IconButton} from "@mui/material";
+import {DeleteForever} from '@mui/icons-material';
 
 export type TTasks = {
     id: string
@@ -26,6 +26,7 @@ type TProps = {
     removeTodolist: (todolistId: string) => void
 }
 
+
 const TodoList = (props: TProps) => {
     const {
         categoryId,
@@ -40,8 +41,8 @@ const TodoList = (props: TProps) => {
         removeTask,
         removeTodolist
     } = props
-    const [parent] = useAutoAnimate()
 
+    const [parent] = useAutoAnimate()
 
     const handleAddTask = (title: string) => {
         addTask(title, categoryId)
@@ -68,8 +69,13 @@ const TodoList = (props: TProps) => {
 
     return (
         <div>
-            <h2><EditableSpan title={title} onChangeTitle={(newTitle) => updateTodoListTitle(newTitle)}/></h2>
-            <Button callback={handleRemoveTodolist} name='✖️'/>
+            <h2>
+                <EditableSpan title={title} onChangeTitle={(newTitle) => updateTodoListTitle(newTitle)}/>
+                <IconButton onClick={handleRemoveTodolist}>
+                    <DeleteForever/>
+                </IconButton>
+            </h2>
+
             <AddItemForm addItem={handleAddTask}/>
             <ul ref={parent}>
                 {tasks?.map(t => {
@@ -82,21 +88,21 @@ const TodoList = (props: TProps) => {
                     }
 
                     return <li key={t.id} className={t.isDone ? 'is-done' : ''}>
-                        <Button name='✖️' callback={changeRemoveTask}/>
-                        <Input checked={t.isDone} onChange={(e) => onChangeIsDoneHandler(t.id, e)} type="checkbox"/>
+                        <Checkbox color="success" checked={t.isDone}
+                                  onChange={(e: ChangeEvent<HTMLInputElement>) => onChangeIsDoneHandler(t.id, e)}/>
                         <EditableSpan title={t.title} onChangeTitle={newTitle => updateTitleSpan(newTitle)}/>
+                        <IconButton onClick={changeRemoveTask}>
+                            <DeleteForever/>
+                        </IconButton>
                     </li>
                 })}
             </ul>
-            <Button className={filter === 'all' ? 'activeClass' : ''}
-                    name='All'
-                    callback={() => changeFiltered('all')}/>
-            <Button className={filter === 'active' ? 'activeClass' : ''}
-                    name='Active'
-                    callback={() => changeFiltered('active')}/>
-            <Button className={filter === 'completed' ? 'activeClass' : ''}
-                    name='Completed'
-                    callback={() => changeFiltered('completed')}/>
+            <Button onClick={() => changeFiltered('all')}
+                    variant={filter === 'all' ? 'contained' : 'text'}>All</Button>
+            <Button color={'secondary'} onClick={() => changeFiltered('active')}
+                    variant={filter === 'active' ? 'contained' : 'text'}>Active</Button>
+            <Button color={'success'} onClick={() => changeFiltered('completed')}
+                    variant={filter === 'completed' ? 'contained' : 'text'}>Completed</Button>
         </div>
     );
 };
