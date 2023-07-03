@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import {useState} from 'react';
 import TodoList from "./componets/TodoList";
 import {v1} from "uuid";
 import S from './App.module.css'
@@ -51,7 +51,7 @@ function App() {
     }
 
     const onChangeTodoListTitle = (id: string, title: string) => {
-        setCategories([...categories.map(category => category.id === id ? {...category, title}: category)])
+        setCategories([...categories.map(category => category.id === id ? {...category, title} : category)])
     }
     const addTask = (title: string, todolistId: string) => {
         setList({...list, [todolistId]: [{id: v1(), title: title, isDone: false}, ...list[todolistId]]})
@@ -61,8 +61,8 @@ function App() {
         setList({...list, [todolistId]: list[todolistId].filter(t => t.id !== id)})
     }
 
-    const onChangeIsDone = (id: string, isDone: boolean, todolistId: string) => {
-        setList({...list, [todolistId]: list[todolistId].map(list => list.id === id ? {...list, isDone} : list)})
+    const onChangeIsDone = (categoryId: string, isDone: boolean, todolistId: string) => {
+        setList({...list, [todolistId]: list[todolistId].map(list => list.id === categoryId ? {...list, isDone} : list)})
     }
 
     const changeFilter = (value: TFilterTask, todoListId: string) => {
@@ -92,7 +92,7 @@ function App() {
                 }
                 return <TodoList
                     key={tl.id}
-                    id={tl.id}
+                    categoryId={tl.id}
                     title={tl.title}
                     filter={tl.filter}
                     tasks={filterTaskHandler()}

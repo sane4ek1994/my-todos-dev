@@ -1,12 +1,11 @@
-import React from 'react';
+import {DetailedHTMLProps, InputHTMLAttributes} from 'react';
 
-
-type TInput =  React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> & {
+type TInput = DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> & {
     type: string
 }
 const Input = ({type, ...rest}: TInput) => {
     return (
-        <input {...rest} type={type} />
+        <input {...rest} type={type}/>
     );
 };
 

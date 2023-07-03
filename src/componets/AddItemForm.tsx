@@ -1,4 +1,4 @@
-import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
+import {ChangeEvent, KeyboardEvent, useState} from 'react';
 import Input from "./Input";
 import Button from "./Button";
 

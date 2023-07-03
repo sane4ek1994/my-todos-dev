@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useState} from 'react';
+import {ChangeEvent, useState} from 'react';
 
 type TEditableSpan = {
     title: string

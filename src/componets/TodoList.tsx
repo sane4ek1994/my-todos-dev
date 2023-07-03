@@ -1,4 +1,4 @@
-import React, {ChangeEvent } from 'react';
+import {ChangeEvent} from 'react';
 import {TFilterTask} from "../App";
 import {useAutoAnimate} from '@formkit/auto-animate/react'
 import Button from "./Button";
@@ -13,7 +13,7 @@ export type TTasks = {
 }
 
 type TProps = {
-    id: string
+    categoryId: string
     title: string
     filter: TFilterTask
     tasks: TTasks[]
@@ -27,45 +27,58 @@ type TProps = {
 }
 
 const TodoList = (props: TProps) => {
+    const {
+        categoryId,
+        title,
+        filter,
+        tasks,
+        onChangeIsDone,
+        onChangeTodoListTitle,
+        onChangeTaskTitle,
+        addTask,
+        changeFilter,
+        removeTask,
+        removeTodolist
+    } = props
     const [parent] = useAutoAnimate()
 
 
-    const addTask = (title: string) => {
-        props.addTask(title, props.id)
+    const handleAddTask = (title: string) => {
+        addTask(title, categoryId)
     }
 
 
-    const removeTask = (id: string) => {
-        props.removeTask(id, props.id)
+    const handleRemoveTask = (id: string) => {
+        removeTask(id, categoryId)
     }
 
     const onChangeIsDoneHandler = (id: string, e: ChangeEvent<HTMLInputElement>) => {
-        props.onChangeIsDone(id, e.currentTarget.checked, props.id)
+        onChangeIsDone(id, e.currentTarget.checked, categoryId)
     }
 
     const changeFiltered = (valueFilter: TFilterTask) => {
-        props.changeFilter(valueFilter, props.id)
+        changeFilter(valueFilter, categoryId)
     }
 
-    const updateTodoListTitle = (newTitle: string) => props.onChangeTodoListTitle(props.id, newTitle)
+    const updateTodoListTitle = (newTitle: string) => onChangeTodoListTitle(categoryId, newTitle)
 
-    const removeTodolist = () => {
-        props.removeTodolist(props.id)
+    const handleRemoveTodolist = () => {
+        removeTodolist(categoryId)
     }
 
     return (
         <div>
-            <h2><EditableSpan title={props.title} onChangeTitle={(newTitle) => updateTodoListTitle(newTitle)}/></h2>
-            <Button callback={removeTodolist} name='✖️'/>
-            <AddItemForm addItem={addTask}/>
+            <h2><EditableSpan title={title} onChangeTitle={(newTitle) => updateTodoListTitle(newTitle)}/></h2>
+            <Button callback={handleRemoveTodolist} name='✖️'/>
+            <AddItemForm addItem={handleAddTask}/>
             <ul ref={parent}>
-                {props.tasks?.map(t => {
+                {tasks?.map(t => {
                     const updateTitleSpan = (newTitle: string) => {
-                        props.onChangeTaskTitle(t.id, newTitle, props.id)
+                        onChangeTaskTitle(t.id, newTitle, categoryId)
                     }
 
                     const changeRemoveTask = () => {
-                        removeTask(t.id)
+                        handleRemoveTask(t.id)
                     }
 
                     return <li key={t.id} className={t.isDone ? 'is-done' : ''}>
@@ -75,13 +88,13 @@ const TodoList = (props: TProps) => {
                     </li>
                 })}
             </ul>
-            <Button className={props.filter === 'all' ? 'activeClass' : ''}
+            <Button className={filter === 'all' ? 'activeClass' : ''}
                     name='All'
                     callback={() => changeFiltered('all')}/>
-            <Button className={props.filter === 'active' ? 'activeClass' : ''}
+            <Button className={filter === 'active' ? 'activeClass' : ''}
                     name='Active'
                     callback={() => changeFiltered('active')}/>
-            <Button className={props.filter === 'completed' ? 'activeClass' : ''}
+            <Button className={filter === 'completed' ? 'activeClass' : ''}
                     name='Completed'
                     callback={() => changeFiltered('completed')}/>
         </div>
