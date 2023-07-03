@@ -1,6 +1,6 @@
-import React from 'react';
+import {DetailedHTMLProps, ButtonHTMLAttributes} from 'react';
 
-type TButton =  React.DetailedHTMLProps<React.ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement> & {
+type TButton = DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement> & {
     name: string
     callback: () => void
 }
