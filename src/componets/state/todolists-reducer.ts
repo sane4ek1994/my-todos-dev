@@ -1,12 +1,31 @@
 import {TFilterTask, TTodoList} from "../../App";
 import {v1} from "uuid";
 
-type TAction = {
-    type: string
-    [key: string]: any
+type TRemoveTodolist = {
+    type: 'REMOVE-TODOLIST',
+    id: string
 }
 
-export const todolistsReducer = (state: TTodoList[], action: TAction) => {
+type TAddTodolist = {
+    type: 'ADD-TODOLIST',
+    title: string
+}
+
+type TChangeTodolistTitle = {
+    type: 'CHANGE-TODOLIST-TITLE',
+    id: string,
+    title: string
+}
+
+type TChangeTodolistFilter = {
+    type: 'CHANGE-TODOLIST-FILTER',
+    id: string,
+    filter: TFilterTask
+}
+
+type TActions = TRemoveTodolist | TAddTodolist | TChangeTodolistTitle | TChangeTodolistFilter
+
+export const todolistsReducer = (state: TTodoList[], action: TActions): TTodoList[] => {
     switch (action.type) {
         case 'REMOVE-TODOLIST':
             return state.filter(t => t.id !== action.id)
@@ -24,18 +43,18 @@ export const todolistsReducer = (state: TTodoList[], action: TAction) => {
     }
 }
 
-export const removeTodolistAC = (id: string) => {
+export const removeTodolistAC = (id: string): TRemoveTodolist => {
     return {type: 'REMOVE-TODOLIST', id}
 }
 
-export const addTodolistAC = (title: string) => {
+export const addTodolistAC = (title: string): TAddTodolist => {
     return {type: 'ADD-TODOLIST', title}
 }
 
-export const changeTodolistTitleAC = (id: string, title: string) => {
+export const changeTodolistTitleAC = (id: string, title: string): TChangeTodolistTitle => {
     return {type: 'CHANGE-TODOLIST-TITLE', id, title}
 }
 
-export const changeTodolistFilterAC = (id: string, filter: TFilterTask) => {
+export const changeTodolistFilterAC = (id: string, filter: TFilterTask): TChangeTodolistFilter => {
     return {type: 'CHANGE-TODOLIST-FILTER', id, filter}
 }
