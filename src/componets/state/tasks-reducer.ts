@@ -1,5 +1,6 @@
 import {TTasks} from "../TodoList";
 import {v1} from "uuid";
+import {TAddTodolist, TRemoveTodolist} from "./todolists-reducer";
 
 
 export type TRemoveTask = {
@@ -36,7 +37,7 @@ export type TTasksState = {
     [key: string]: TTasks[]
 }
 
-type TActions = TRemoveTask | TAddTask | TChangeTitleTask | TChangeIsDoneTask
+type TActions = TRemoveTask | TAddTask | TChangeTitleTask | TChangeIsDoneTask | TAddTodolist | TRemoveTodolist
 
 export const tasksReducer = (state: TTasksState, action: TActions): TTasksState => {
     switch (action.type) {
@@ -63,6 +64,17 @@ export const tasksReducer = (state: TTasksState, action: TActions): TTasksState 
                     isDone: action.isDone
                 } : list)
             }
+        case 'ADD-TODOLIST':
+            return {...state, [action.todolistId]: []}
+        case 'REMOVE-TODOLIST':
+            // const stateCopy = {...state}
+            // delete stateCopy[action.id]
+            // return stateCopy
+
+            // оптимизация этого кейса
+            return Object.fromEntries(
+                Object.entries(state).filter(([key, value]) => key !== action.id)
+            )
         default:
             throw new Error('I don\'t understand this type Task reducer')
     }

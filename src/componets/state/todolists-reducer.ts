@@ -1,14 +1,15 @@
 import {TFilterTask, TTodoList} from "../../App";
 import {v1} from "uuid";
 
-type TRemoveTodolist = {
+export type TRemoveTodolist = {
     type: 'REMOVE-TODOLIST',
     id: string
 }
 
-type TAddTodolist = {
+export type TAddTodolist = {
     type: 'ADD-TODOLIST',
     title: string
+    todolistId: string
 }
 
 type TChangeTodolistTitle = {
@@ -30,7 +31,7 @@ export const todolistsReducer = (state: TTodoList[], action: TActions): TTodoLis
         case 'REMOVE-TODOLIST':
             return state.filter(t => t.id !== action.id)
         case 'ADD-TODOLIST':
-            return [{id: v1(), title: action.title, filter: "all"}, ...state]
+            return [{id: action.todolistId, title: action.title, filter: "all"}, ...state]
         case 'CHANGE-TODOLIST-TITLE':
             return state.map(categories => categories.id === action.id ? {
                 ...categories,
@@ -48,7 +49,7 @@ export const removeTodolistAC = (id: string): TRemoveTodolist => {
 }
 
 export const addTodolistAC = (title: string): TAddTodolist => {
-    return {type: 'ADD-TODOLIST', title}
+    return {type: 'ADD-TODOLIST', title, todolistId: v1()}
 }
 
 export const changeTodolistTitleAC = (id: string, title: string): TChangeTodolistTitle => {
