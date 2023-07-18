@@ -73,8 +73,9 @@ export const tasksReducer = (state: TTasksState, action: TActions): TTasksState 
 
             // оптимизация этого кейса
             return Object.fromEntries(
-                Object.entries(state).filter(([key, value]) => key !== action.id)
+                Object.entries(state).filter(([key]) => key !== action.id)
             )
+
         default:
             throw new Error('I don\'t understand this type Task reducer')
     }
