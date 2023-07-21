@@ -5,10 +5,11 @@ import S from './App.module.css'
 import {AddItemForm} from "./componets/AddItemForm";
 import {AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from '@mui/material';
 import {Menu} from '@mui/icons-material';
+import {useAutoAnimate} from "@formkit/auto-animate/react";
 
 export type TFilterTask = 'all' | 'completed' | 'active'
 
-type TTodoList = {
+export type TTodoList = {
     id: string
     title: string
     filter: TFilterTask
@@ -42,6 +43,7 @@ function App() {
         ]
     });
 
+    const [parent] = useAutoAnimate()
 
     const addTodoList = (title: string) => {
         let todolist: TTodoList = {id: v1(), title, filter: "all"}
@@ -105,7 +107,7 @@ function App() {
                 <Grid container justifyContent="center" style={{padding: '10px', marginBottom: '10px'}}>
                     <AddItemForm addItem={addTodoList}/>
                 </Grid>
-                <Grid container spacing={3} justifyContent="center">
+                <Grid container spacing={3} ref={parent} justifyContent="center">
                     {categories?.map(tl => {
                         const filterTaskHandler = () => {
                             let filteredTask = list[tl.id]
