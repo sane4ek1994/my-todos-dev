@@ -1,14 +1,12 @@
-import {TTasks} from "../TodoList";
+import {TTasks} from "../componets/TodoList";
 import {v1} from "uuid";
 import {TAddTodolist, TRemoveTodolist} from "./todolists-reducer";
-
 
 export type TRemoveTask = {
     type: 'REMOVE-TASK'
     todolistId: string
     id: string
 }
-
 
 export type TAddTask = {
     type: 'ADD-TASK'
@@ -36,7 +34,7 @@ export type TChangeIsDoneTask = {
 export type TTasksState = {
     [key: string]: TTasks[]
 }
-
+// type заменить на <ReturnType typeof removeTasksAC>
 type TActions = TRemoveTask | TAddTask | TChangeTitleTask | TChangeIsDoneTask | TAddTodolist | TRemoveTodolist
 
 export const tasksReducer = (state: TTasksState, action: TActions): TTasksState => {
@@ -72,9 +70,13 @@ export const tasksReducer = (state: TTasksState, action: TActions): TTasksState 
             // return stateCopy
 
             // оптимизация этого кейса
-            return Object.fromEntries(
-                Object.entries(state).filter(([key]) => key !== action.id)
-            )
+            //return Object.fromEntries(
+            //     Object.entries(state).filter(([key]) => key !== action.id)
+            // )
+
+            // ещё один крутой подход удоления массива из todolist
+            const {[action.id]: [], ...rest} = state
+            return rest
 
         default:
             throw new Error('I don\'t understand this type Task reducer')

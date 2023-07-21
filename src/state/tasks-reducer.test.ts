@@ -31,9 +31,26 @@ test('remove task', () => {
         ]
     }
 
-    const endState: TTasksState = tasksReducer(startState, removeTasksAC(todoListID1, '2'))
+    const action = removeTasksAC(todoListID1, '2')
+
+    const endState: TTasksState = tasksReducer(startState, action)
 
     expect(endState[todoListID1].length).toBe(4)
+    expect(endState).toEqual({
+        [todoListID1]: [
+            {id: '1', title: "HTML&CSS", isDone: true},
+            {id: '3', title: "ReactJS", isDone: false},
+            {id: '4', title: "Rest API", isDone: false},
+            {id: '5', title: "GraphQL", isDone: false},
+        ],
+        [todoListID2]: [
+            {id: '1', title: "Pizzza 🍕", isDone: true},
+            {id: '2', title: "Beer🍺", isDone: true},
+            {id: '3', title: "Game 🎮", isDone: false},
+            {id: '4', title: "Hello!", isDone: false},
+            {id: '5', title: "Hi gay!😁", isDone: false},
+        ]
+    })
 
 })
 
@@ -60,10 +77,14 @@ test('added new tasks', () => {
         ]
     }
 
-    const endState: TTasksState = tasksReducer(startState, addTaskAC(todoListID1, '6', newTitleTasks))
+    const action = addTaskAC(todoListID1, '6', newTitleTasks)
+
+    const endState: TTasksState = tasksReducer(startState, action)
 
     expect(endState[todoListID1].length).toBe(6)
     expect(endState[todoListID1][0].title).toBe(newTitleTasks)
+    expect(endState[todoListID1][0]).toBeDefined()
+    expect(endState[todoListID1][5].isDone).toBeFalsy()
 
 })
 
@@ -90,8 +111,11 @@ test('change task title', () => {
         ]
     }
 
-    const endState: TTasksState = tasksReducer(startState, changeTaskTitleAC(todoListID2, '1', newTitleTasks))
+    const action = changeTaskTitleAC(todoListID2, '1', newTitleTasks)
 
+    const endState: TTasksState = tasksReducer(startState, action)
+
+    expect(endState[todoListID1][0].title).toBe('HTML&CSS')
     expect(startState[todoListID2][0].title).toBe("Pizzza 🍕")
     expect(endState[todoListID2][0].title).toBe(newTitleTasks)
     expect(startState[todoListID2].length).toBe(5)
@@ -122,7 +146,9 @@ test('change task isDone', () => {
         ]
     }
 
-    const endState: TTasksState = tasksReducer(startState, changeTaskIsDoneAC(todoListID2, '1', newIsDoneValue))
+    const action = changeTaskIsDoneAC(todoListID2, '1', newIsDoneValue)
+
+    const endState: TTasksState = tasksReducer(startState, action)
 
     expect(startState[todoListID2]).not.toEqual(endState[todoListID2])
     expect(endState[todoListID2][0].isDone).toBe(false)
@@ -151,6 +177,7 @@ test('new property array should be added when new todolist is added', () => {
     }
 
     const action: TAddTodolist = addTodolistAC('no matter title and id v1() =>')
+
     const endState: TTasksState = tasksReducer(startState, action)
 
     const keys = Object.keys(endState)

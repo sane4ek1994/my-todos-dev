@@ -1,5 +1,5 @@
 import {v1} from "uuid";
-import {TFilterTask, TTodoList} from '../../App'
+import {TFilterTask, TTodoList} from '../App'
 import {
     addTodolistAC,
     changeTodolistFilterAC,

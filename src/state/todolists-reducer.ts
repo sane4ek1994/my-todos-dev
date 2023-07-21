@@ -1,4 +1,4 @@
-import {TFilterTask, TTodoList} from "../../App";
+import {TFilterTask, TTodoList} from "../App";
 import {v1} from "uuid";
 
 export type TRemoveTodolist = {
