@@ -6,7 +6,6 @@ import {Menu} from '@mui/icons-material';
 import {useAutoAnimate} from "@formkit/auto-animate/react";
 import {useDispatch, useSelector} from "react-redux";
 import {TAppRootState} from "./state/store";
-import {addTaskAC, changeTaskIsDoneAC, changeTaskTitleAC, removeTasksAC, TTasksState} from "./state/tasks-reducer";
 import {
     addTodolistAC,
     changeTodolistFilterAC,
@@ -26,35 +25,10 @@ export type TTodoList = {
 function App() {
 
     const categories = useSelector<TAppRootState, TTodoList[]>(state => state.todolists)
-    const list = useSelector<TAppRootState, TTasksState>(state => state.tasks)
 
     const dispatch = useDispatch()
 
     const [parent] = useAutoAnimate()
-
-    const addTodoList = (title: string) => {
-        dispatch(addTodolistAC(title))
-    }
-
-    const onChangeTaskTitle = (id: string, title: string, todoListId: string) => {
-        dispatch(changeTaskTitleAC(todoListId, id, title))
-    }
-
-    const onChangeTodoListTitle = (id: string, title: string) => {
-        dispatch(changeTodolistTitleAC(id, title))
-    }
-    const addTask = (title: string, todolistId: string) => {
-        dispatch(addTaskAC(todolistId, title))
-    }
-    const removeTask = (id: string, todolistId: string) => {
-
-        dispatch(removeTasksAC(todolistId, id))
-
-    }
-
-    const onChangeIsDone = (categoryId: string, isDone: boolean, todolistId: string) => {
-        dispatch(changeTaskIsDoneAC(todolistId, categoryId, isDone))
-    }
 
     const changeFilter = (value: TFilterTask, todoListId: string) => {
         dispatch(changeTodolistFilterAC(todoListId, value))
@@ -62,6 +36,13 @@ function App() {
 
     const removeTodolist = (todolistId: string) => {
         dispatch(removeTodolistAC(todolistId))
+    }
+    const addTodoList = (title: string) => {
+        dispatch(addTodolistAC(title))
+    }
+
+    const onChangeTodoListTitle = (id: string, title: string) => {
+        dispatch(changeTodolistTitleAC(id, title))
     }
 
     return (
@@ -89,31 +70,15 @@ function App() {
                 </Grid>
                 <Grid container spacing={3} ref={parent} justifyContent="center">
                     {categories?.map(tl => {
-                        const filterTaskHandler = () => {
-                            let filteredTask = list[tl.id]
-                            switch (tl.filter) {
-                                case "active":
-                                    return filteredTask?.filter(t => !t.isDone)
-                                case "completed":
-                                    return filteredTask?.filter(t => t.isDone)
-                                default:
-                                    return filteredTask
-                            }
-                        }
                         return <Grid item key={tl.id}>
                             <Paper elevation={3} style={{padding: '10px'}}>
                                 <TodoList
                                     categoryId={tl.id}
                                     title={tl.title}
                                     filter={tl.filter}
-                                    tasks={filterTaskHandler()}
-                                    addTask={addTask}
                                     changeFilter={changeFilter}
-                                    removeTask={removeTask}
                                     onChangeTodoListTitle={onChangeTodoListTitle}
-                                    onChangeTaskTitle={onChangeTaskTitle}
                                     removeTodolist={removeTodolist}
-                                    onChangeIsDone={onChangeIsDone}
                                 />
                             </Paper>
                         </Grid>
