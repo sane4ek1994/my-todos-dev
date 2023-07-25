@@ -26,7 +26,15 @@ type TChangeTodolistFilter = {
 
 type TActions = TRemoveTodolist | TAddTodolist | TChangeTodolistTitle | TChangeTodolistFilter
 
-export const todolistsReducer = (state: TTodoList[], action: TActions): TTodoList[] => {
+export const todoListID1 = v1()
+export const todoListID2 = v1()
+
+const initialState: TTodoList[] = [
+    {id: todoListID1, title: 'Todo list', filter: 'all'},
+    {id: todoListID2, title: 'Hobby list', filter: 'active'},
+]
+
+export const todolistsReducer = (state: TTodoList[] = initialState, action: TActions): TTodoList[] => {
     switch (action.type) {
         case 'REMOVE-TODOLIST':
             return state.filter(t => t.id !== action.id)
@@ -40,7 +48,7 @@ export const todolistsReducer = (state: TTodoList[], action: TActions): TTodoLis
         case 'CHANGE-TODOLIST-FILTER':
             return state.map(filtered => filtered.id === action.id ? {...filtered, filter: action.filter} : filtered)
         default:
-            throw new Error('I don\'t understand this type')
+            return state
     }
 }
 

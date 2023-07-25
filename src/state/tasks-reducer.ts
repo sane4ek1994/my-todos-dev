@@ -1,6 +1,6 @@
 import {TTasks} from "../componets/TodoList";
 import {v1} from "uuid";
-import {TAddTodolist, TRemoveTodolist} from "./todolists-reducer";
+import {TAddTodolist, todoListID1, todoListID2, TRemoveTodolist} from "./todolists-reducer";
 
 export type TRemoveTask = {
     type: 'REMOVE-TASK'
@@ -11,7 +11,6 @@ export type TRemoveTask = {
 export type TAddTask = {
     type: 'ADD-TASK'
     todolistId: string
-    id: string
     title: string
 }
 
@@ -37,7 +36,23 @@ export type TTasksState = {
 // type заменить на <ReturnType typeof removeTasksAC>
 type TActions = TRemoveTask | TAddTask | TChangeTitleTask | TChangeIsDoneTask | TAddTodolist | TRemoveTodolist
 
-export const tasksReducer = (state: TTasksState, action: TActions): TTasksState => {
+const initialState: TTasksState = {
+    [todoListID1]: [
+        {id: v1(), title: "HTML&CSS", isDone: true},
+        {id: v1(), title: "JS", isDone: true},
+        {id: v1(), title: "ReactJS", isDone: false},
+        {id: v1(), title: "Rest API", isDone: false},
+        {id: v1(), title: "GraphQL", isDone: false},
+    ],
+    [todoListID2]: [
+        {id: v1(), title: "Pizzza 🍕", isDone: true},
+        {id: v1(), title: "Beer🍺", isDone: true},
+        {id: v1(), title: "Game 🎮", isDone: false},
+        {id: v1(), title: "Hello!", isDone: false},
+        {id: v1(), title: "Hi gay!😁", isDone: false},
+    ]
+}
+export const tasksReducer = (state: TTasksState = initialState, action: TActions): TTasksState => {
     switch (action.type) {
         case 'REMOVE-TASK':
             return {...state, [action.todolistId]: state[action.todolistId].filter(t => t.id !== action.id)}
@@ -79,7 +94,7 @@ export const tasksReducer = (state: TTasksState, action: TActions): TTasksState 
             return rest
 
         default:
-            throw new Error('I don\'t understand this type Task reducer')
+           return state
     }
 }
 
@@ -87,8 +102,8 @@ export const removeTasksAC = (todolistId: string, id: string): TRemoveTask => {
     return {type: 'REMOVE-TASK', todolistId, id}
 }
 
-export const addTaskAC = (todolistId: string, id: string, title: string): TAddTask => {
-    return {type: 'ADD-TASK', todolistId, id, title}
+export const addTaskAC = (todolistId: string, title: string): TAddTask => {
+    return {type: 'ADD-TASK', todolistId, title}
 }
 
 export const changeTaskTitleAC = (todolistId: string, id: string, title: string): TChangeTitleTask => {
