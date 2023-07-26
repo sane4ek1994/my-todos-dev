@@ -94,9 +94,11 @@ export const tasksReducer = (state: TTasksState = initialState, action: TActions
             // return Object.fromEntries(
             //     Object.entries(state).filter(([key]) => key !== action.id)
             // )
-            // ещё один крутой подход удоления массива из todolist
+            // ещё один крутой подход удоления массива из todolist ,
+        {
             const {[action.id]: [], ...rest} = state
             return rest
+        }
 
         default:
             return state
