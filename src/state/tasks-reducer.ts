@@ -86,16 +86,16 @@ export const tasksReducer = (state: TTasksState = initialState, action: TActions
     case 'ADD-TODOLIST':
       return { ...state, [action.todolistId]: [] }
     case 'REMOVE-TODOLIST':
-      const stateCopy = { ...state }
-      delete stateCopy[action.id]
-      return stateCopy
+      //   const stateCopy = { ...state }
+      //   delete stateCopy[action.id]
+      //   return stateCopy
 
-    // оптимизация этого кейса
-    // return Object.fromEntries(
-    //     Object.entries(state).filter(([key]) => key !== action.id)
-    // )
-    // ещё один крутой подход удоления массива из todolist
-    //   return { ...state, [action.id]: [] }
+      // оптимизация этого кейса
+      // return Object.fromEntries(
+      //     Object.entries(state).filter(([key]) => key !== action.id)
+      // )
+      // ещё один крутой подход удоления массива из todolist
+      return { ...state, [action.id]: [] }
 
     default:
       return state
