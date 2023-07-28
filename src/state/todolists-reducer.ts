@@ -1,29 +1,10 @@
 import {TFilterTask, TTodoList} from "../App";
 import {v1} from "uuid";
 
-export type TRemoveTodolist = {
-    type: 'REMOVE-TODOLIST',
-    id: string
-}
-
-export type TAddTodolist = {
-    type: 'ADD-TODOLIST',
-    title: string
-    todolistId: string
-}
-
-type TChangeTodolistTitle = {
-    type: 'CHANGE-TODOLIST-TITLE',
-    id: string,
-    title: string
-}
-
-type TChangeTodolistFilter = {
-    type: 'CHANGE-TODOLIST-FILTER',
-    id: string,
-    filter: TFilterTask
-}
-
+export type TRemoveTodolist = ReturnType<typeof removeTodolistAC>
+export type TAddTodolist = ReturnType<typeof addTodolistAC>
+type TChangeTodolistTitle = ReturnType<typeof changeTodolistTitleAC>
+type TChangeTodolistFilter = ReturnType<typeof changeTodolistFilterAC>
 type TActions = TRemoveTodolist | TAddTodolist | TChangeTodolistTitle | TChangeTodolistFilter
 
 export const todoListID1 = v1()
@@ -52,18 +33,18 @@ export const todolistsReducer = (state: TTodoList[] = initialState, action: TAct
     }
 }
 
-export const removeTodolistAC = (id: string): TRemoveTodolist => {
-    return {type: 'REMOVE-TODOLIST', id}
-}
+export const removeTodolistAC = (id: string) => ({type: 'REMOVE-TODOLIST', id} as const)
 
-export const addTodolistAC = (title: string): TAddTodolist => {
-    return {type: 'ADD-TODOLIST', title, todolistId: v1()}
-}
+export const addTodolistAC = (title: string) => ({type: 'ADD-TODOLIST', title, todolistId: v1()} as const)
 
-export const changeTodolistTitleAC = (id: string, title: string): TChangeTodolistTitle => {
-    return {type: 'CHANGE-TODOLIST-TITLE', id, title}
-}
+export const changeTodolistTitleAC = (id: string, title: string) => ({
+    type: 'CHANGE-TODOLIST-TITLE',
+    id,
+    title
+} as const)
 
-export const changeTodolistFilterAC = (id: string, filter: TFilterTask): TChangeTodolistFilter => {
-    return {type: 'CHANGE-TODOLIST-FILTER', id, filter}
-}
+export const changeTodolistFilterAC = (id: string, filter: TFilterTask) => ({
+    type: 'CHANGE-TODOLIST-FILTER',
+    id,
+    filter
+} as const)

@@ -2,36 +2,14 @@ import {TTasks} from '../componets/TodoList'
 import {v1} from 'uuid'
 import {TAddTodolist, todoListID1, todoListID2, TRemoveTodolist} from './todolists-reducer'
 
-export type TRemoveTask = {
-    type: 'REMOVE-TASK'
-    todolistId: string
-    id: string
-}
-
-export type TAddTask = {
-    type: 'ADD-TASK'
-    todolistId: string
-    title: string
-}
-
-export type TChangeTitleTask = {
-    type: 'CHANGE-TASK-TITLE'
-    id: string
-    todolistId: string
-    title: string
-}
-
-export type TChangeIsDoneTask = {
-    type: 'CHANGE-TASK-ISDONE'
-    categoryId: string
-    todolistId: string
-    isDone: boolean
-}
-
+type TRemoveTask = ReturnType<typeof removeTasksAC>
+type TAddTask = ReturnType<typeof addTaskAC>
+type TChangeTitleTask = ReturnType<typeof changeTaskTitleAC>
+type TChangeIsDoneTask = ReturnType<typeof changeTaskIsDoneAC>
 export type TTasksState = {
     [key: string]: TTasks[]
 }
-// type заменить на <ReturnType typeof removeTasksAC>
+
 type TActions = TRemoveTask | TAddTask | TChangeTitleTask | TChangeIsDoneTask | TAddTodolist | TRemoveTodolist
 
 const initialState: TTasksState = {
@@ -101,18 +79,20 @@ export const tasksReducer = (state: TTasksState = initialState, action: TActions
     }
 }
 
-export const removeTasksAC = (todolistId: string, id: string): TRemoveTask => {
-    return {type: 'REMOVE-TASK', todolistId, id}
-}
+export const removeTasksAC = (todolistId: string, id: string) => ({type: 'REMOVE-TASK', todolistId, id} as const)
 
-export const addTaskAC = (todolistId: string, title: string): TAddTask => {
-    return {type: 'ADD-TASK', todolistId, title}
-}
+export const addTaskAC = (todolistId: string, title: string) => ({type: 'ADD-TASK', todolistId, title} as const)
 
-export const changeTaskTitleAC = (todolistId: string, id: string, title: string): TChangeTitleTask => {
-    return {type: 'CHANGE-TASK-TITLE', todolistId, id, title}
-}
+export const changeTaskTitleAC = (todolistId: string, id: string, title: string) => ({
+    type: 'CHANGE-TASK-TITLE',
+    todolistId,
+    id,
+    title
+} as const)
 
-export const changeTaskIsDoneAC = (todolistId: string, categoryId: string, isDone: boolean): TChangeIsDoneTask => {
-    return {type: 'CHANGE-TASK-ISDONE', todolistId, categoryId, isDone}
-}
+export const changeTaskIsDoneAC = (todolistId: string, categoryId: string, isDone: boolean) => ({
+    type: 'CHANGE-TASK-ISDONE',
+    todolistId,
+    categoryId,
+    isDone
+} as const)
