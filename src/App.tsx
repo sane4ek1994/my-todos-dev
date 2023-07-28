@@ -6,12 +6,7 @@ import {Menu} from '@mui/icons-material';
 import {useAutoAnimate} from "@formkit/auto-animate/react";
 import {useDispatch, useSelector} from "react-redux";
 import {TAppRootState} from "./state/store";
-import {
-    addTodolistAC,
-    changeTodolistFilterAC,
-    changeTodolistTitleAC,
-    removeTodolistAC
-} from "./state/todolists-reducer";
+import {addTodolistAC} from "./state/todolists-reducer";
 
 export type TFilterTask = 'all' | 'completed' | 'active'
 
@@ -30,19 +25,8 @@ function App() {
 
     const [parent] = useAutoAnimate()
 
-    const changeFilter = (value: TFilterTask, todoListId: string) => {
-        dispatch(changeTodolistFilterAC(todoListId, value))
-    }
-
-    const removeTodolist = (todolistId: string) => {
-        dispatch(removeTodolistAC(todolistId))
-    }
     const addTodoList = (title: string) => {
         dispatch(addTodolistAC(title))
-    }
-
-    const onChangeTodoListTitle = (id: string, title: string) => {
-        dispatch(changeTodolistTitleAC(id, title))
     }
 
     return (
@@ -72,14 +56,7 @@ function App() {
                     {categories?.map(tl => {
                         return <Grid item key={tl.id}>
                             <Paper elevation={3} style={{padding: '10px'}}>
-                                <TodoList
-                                    categoryId={tl.id}
-                                    title={tl.title}
-                                    filter={tl.filter}
-                                    changeFilter={changeFilter}
-                                    onChangeTodoListTitle={onChangeTodoListTitle}
-                                    removeTodolist={removeTodolist}
-                                />
+                                <TodoList todolist={tl}/>
                             </Paper>
                         </Grid>
                     })}

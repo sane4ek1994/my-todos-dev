@@ -49,7 +49,7 @@ export const tasksReducer = (state: TTasksState = initialState, action: TActions
                         : list
                 )
             }
-        case 'CHANGE-TASK-ISDONE':
+        case 'CHANGE-TASK-IS-DONE':
             return {
                 ...state,
                 [action.todolistId]: state[action.todolistId].map(list =>
@@ -91,7 +91,7 @@ export const changeTaskTitleAC = (todolistId: string, id: string, title: string)
 } as const)
 
 export const changeTaskIsDoneAC = (todolistId: string, categoryId: string, isDone: boolean) => ({
-    type: 'CHANGE-TASK-ISDONE',
+    type: 'CHANGE-TASK-IS-DONE',
     todolistId,
     categoryId,
     isDone
