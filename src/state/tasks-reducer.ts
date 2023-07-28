@@ -1,43 +1,34 @@
-import {TTasks} from "../componets/TodoList";
-import {v1} from "uuid";
-import {TAddTodolist, TRemoveTodolist} from "./todolists-reducer";
+import {TTasks} from '../componets/TodoList'
+import {v1} from 'uuid'
+import {TAddTodolist, todoListID1, todoListID2, TRemoveTodolist} from './todolists-reducer'
 
-export type TRemoveTask = {
-    type: 'REMOVE-TASK'
-    todolistId: string
-    id: string
-}
-
-export type TAddTask = {
-    type: 'ADD-TASK'
-    todolistId: string
-    id: string
-    title: string
-}
-
-export type TChangeTitleTask = {
-    type: 'CHANGE-TASK-TITLE',
-    id: string,
-    todolistId: string,
-    title: string
-
-}
-
-export type TChangeIsDoneTask = {
-    type: 'CHANGE-TASK-ISDONE',
-    categoryId: string,
-    todolistId: string,
-    isDone: boolean
-}
-
-
+type TRemoveTask = ReturnType<typeof removeTasksAC>
+type TAddTask = ReturnType<typeof addTaskAC>
+type TChangeTitleTask = ReturnType<typeof changeTaskTitleAC>
+type TChangeIsDoneTask = ReturnType<typeof changeTaskIsDoneAC>
 export type TTasksState = {
     [key: string]: TTasks[]
 }
-// type заменить на <ReturnType typeof removeTasksAC>
+
 type TActions = TRemoveTask | TAddTask | TChangeTitleTask | TChangeIsDoneTask | TAddTodolist | TRemoveTodolist
 
-export const tasksReducer = (state: TTasksState, action: TActions): TTasksState => {
+const initialState: TTasksState = {
+    [todoListID1]: [
+        {id: v1(), title: 'HTML&CSS', isDone: true},
+        {id: v1(), title: 'JS', isDone: true},
+        {id: v1(), title: 'ReactJS', isDone: false},
+        {id: v1(), title: 'Rest API', isDone: false},
+        {id: v1(), title: 'GraphQL', isDone: false}
+    ],
+    [todoListID2]: [
+        {id: v1(), title: 'Pizzza 🍕', isDone: true},
+        {id: v1(), title: 'Beer🍺', isDone: true},
+        {id: v1(), title: 'Game 🎮', isDone: false},
+        {id: v1(), title: 'Hello!', isDone: false},
+        {id: v1(), title: 'Hi gay!😁', isDone: false}
+    ]
+}
+export const tasksReducer = (state: TTasksState = initialState, action: TActions): TTasksState => {
     switch (action.type) {
         case 'REMOVE-TASK':
             return {...state, [action.todolistId]: state[action.todolistId].filter(t => t.id !== action.id)}
@@ -46,55 +37,62 @@ export const tasksReducer = (state: TTasksState, action: TActions): TTasksState 
                 ...state,
                 [action.todolistId]: [{id: v1(), title: action.title, isDone: false}, ...state[action.todolistId]]
             }
-        case "CHANGE-TASK-TITLE":
+        case 'CHANGE-TASK-TITLE':
             return {
                 ...state,
-                [action.todolistId]: state[action.todolistId].map(list => list.id === action.id ? {
-                    ...list,
-                    title: action.title
-                } : list)
+                [action.todolistId]: state[action.todolistId].map(list =>
+                    list.id === action.id
+                        ? {
+                            ...list,
+                            title: action.title
+                        }
+                        : list
+                )
             }
-        case "CHANGE-TASK-ISDONE":
+        case 'CHANGE-TASK-IS-DONE':
             return {
                 ...state,
-                [action.todolistId]: state[action.todolistId].map(list => list.id === action.categoryId ? {
-                    ...list,
-                    isDone: action.isDone
-                } : list)
+                [action.todolistId]: state[action.todolistId].map(list =>
+                    list.id === action.categoryId
+                        ? {
+                            ...list,
+                            isDone: action.isDone
+                        }
+                        : list
+                )
             }
         case 'ADD-TODOLIST':
             return {...state, [action.todolistId]: []}
         case 'REMOVE-TODOLIST':
-            // const stateCopy = {...state}
-            // delete stateCopy[action.id]
-            // return stateCopy
+            //   const stateCopy = { ...state }
+            //   delete stateCopy[action.id]
+            //   return stateCopy
 
             // оптимизация этого кейса
-            //return Object.fromEntries(
-            //     Object.entries(state).filter(([key]) => key !== action.id)
-            // )
-
-            // ещё один крутой подход удоления массива из todolist
-            const {[action.id]: [], ...rest} = state
-            return rest
+            return Object.fromEntries(Object.entries(state).filter(([key]) => key !== action.id))
+        // ещё один крутой подход удоления массива из todolist , но deploy с ним не проходит
+        // const {[action.id]: [], ...rest} = state
+        // return rest
 
         default:
-            throw new Error('I don\'t understand this type Task reducer')
+            return state
     }
 }
 
-export const removeTasksAC = (todolistId: string, id: string): TRemoveTask => {
-    return {type: 'REMOVE-TASK', todolistId, id}
-}
+export const removeTasksAC = (todolistId: string, id: string) => ({type: 'REMOVE-TASK', todolistId, id} as const)
 
-export const addTaskAC = (todolistId: string, id: string, title: string): TAddTask => {
-    return {type: 'ADD-TASK', todolistId, id, title}
-}
+export const addTaskAC = (todolistId: string, title: string) => ({type: 'ADD-TASK', todolistId, title} as const)
 
-export const changeTaskTitleAC = (todolistId: string, id: string, title: string): TChangeTitleTask => {
-    return {type: 'CHANGE-TASK-TITLE', todolistId, id, title}
-}
+export const changeTaskTitleAC = (todolistId: string, id: string, title: string) => ({
+    type: 'CHANGE-TASK-TITLE',
+    todolistId,
+    id,
+    title
+} as const)
 
-export const changeTaskIsDoneAC = (todolistId: string, categoryId: string, isDone: boolean): TChangeIsDoneTask => {
-    return {type: 'CHANGE-TASK-ISDONE', todolistId, categoryId, isDone}
-}
+export const changeTaskIsDoneAC = (todolistId: string, categoryId: string, isDone: boolean) => ({
+    type: 'CHANGE-TASK-IS-DONE',
+    todolistId,
+    categoryId,
+    isDone
+} as const)

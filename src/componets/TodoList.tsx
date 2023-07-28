@@ -1,10 +1,14 @@
 import {ChangeEvent} from 'react';
-import {TFilterTask} from "../App";
+import {TFilterTask, TTodoList} from "../App";
 import {useAutoAnimate} from '@formkit/auto-animate/react'
 import {AddItemForm} from "./AddItemForm";
 import {EditableSpan} from "./EditableSpan";
 import {Button, Checkbox, IconButton} from "@mui/material";
 import {DeleteForever} from '@mui/icons-material';
+import {useDispatch, useSelector} from "react-redux";
+import {TAppRootState} from "../state/store";
+import {addTaskAC, changeTaskIsDoneAC, changeTaskTitleAC, removeTasksAC} from "../state/tasks-reducer";
+import {changeTodolistFilterAC, changeTodolistTitleAC, removeTodolistAC} from "../state/todolists-reducer";
 
 export type TTasks = {
     id: string
@@ -13,58 +17,41 @@ export type TTasks = {
 }
 
 type TProps = {
-    categoryId: string
-    title: string
-    filter: TFilterTask
-    tasks: TTasks[]
-    onChangeTodoListTitle: (id: string, newTitle: string) => void
-    onChangeTaskTitle: (id: string, newTitle: string, todoListId: string) => void
-    addTask: (title: string, todolistId: string) => void
-    removeTask: (id: string, todolistId: string) => void
-    changeFilter: (filter: TFilterTask, todoListId: string) => void
-    onChangeIsDone: (id: string, isDone: boolean, todolistId: string) => void
-    removeTodolist: (todolistId: string) => void
+    todolist: TTodoList
 }
 
 
 const TodoList = (props: TProps) => {
-    const {
-        categoryId,
-        title,
-        filter,
-        tasks,
-        onChangeIsDone,
-        onChangeTodoListTitle,
-        onChangeTaskTitle,
-        addTask,
-        changeFilter,
-        removeTask,
-        removeTodolist
-    } = props
+    const {todolist} = props
+
+    //берем один тудулист из стейта
+    // const todolist = useSelector<TAppRootState, TTodoList>(state => state.todolists.filter(todo => todo.id === categoryId)[0])
+
+    const tasks = useSelector<TAppRootState, TTasks[]>(state => state.tasks[todolist.id])
+
+    const {title, filter} = todolist
+
+    const dispatch = useDispatch()
 
     const [parent] = useAutoAnimate()
 
-    const handleAddTask = (title: string) => {
-        addTask(title, categoryId)
-    }
 
+    const changeFiltered = (valueFilter: TFilterTask) => dispatch(changeTodolistFilterAC(todolist.id, valueFilter))
 
-    const handleRemoveTask = (id: string) => {
-        removeTask(id, categoryId)
-    }
+    const updateTodoListTitle = (newTitle: string) => dispatch(changeTodolistTitleAC(todolist.id, newTitle))
 
-    const onChangeIsDoneHandler = (id: string, e: ChangeEvent<HTMLInputElement>) => {
-        onChangeIsDone(id, e.currentTarget.checked, categoryId)
-    }
+    const handleRemoveTodolist = () => dispatch(removeTodolistAC(todolist.id))
 
-    const changeFiltered = (valueFilter: TFilterTask) => {
-        changeFilter(valueFilter, categoryId)
-    }
-
-    const updateTodoListTitle = (newTitle: string) => onChangeTodoListTitle(categoryId, newTitle)
-
-    const handleRemoveTodolist = () => {
-        removeTodolist(categoryId)
+    const filterTaskHandler = () => {
+        let filteredTask = tasks
+        switch (filter) {
+            case "active":
+                return filteredTask?.filter(t => !t.isDone)
+            case "completed":
+                return filteredTask?.filter(t => t.isDone)
+            default:
+                return filteredTask
+        }
     }
 
     return (
@@ -76,20 +63,16 @@ const TodoList = (props: TProps) => {
                 </IconButton>
             </h2>
 
-            <AddItemForm addItem={handleAddTask}/>
+            <AddItemForm addItem={(title) => dispatch(addTaskAC(todolist.id, title))}/>
             <ul ref={parent}>
-                {tasks?.map(t => {
-                    const updateTitleSpan = (newTitle: string) => {
-                        onChangeTaskTitle(t.id, newTitle, categoryId)
-                    }
+                {filterTaskHandler()?.map(t => {
+                    const updateTitleSpan = (newTitle: string) => dispatch(changeTaskTitleAC(todolist.id, t.id, newTitle))
+                    const changeRemoveTask = () => dispatch(removeTasksAC(todolist.id, t.id))
 
-                    const changeRemoveTask = () => {
-                        handleRemoveTask(t.id)
-                    }
 
                     return <li key={t.id} className={t.isDone ? 'is-done' : ''}>
                         <Checkbox color="success" checked={t.isDone}
-                                  onChange={(e: ChangeEvent<HTMLInputElement>) => onChangeIsDoneHandler(t.id, e)}/>
+                                  onChange={(e: ChangeEvent<HTMLInputElement>) => dispatch(changeTaskIsDoneAC(todolist.id, t.id, e.currentTarget.checked))}/>
                         <EditableSpan title={t.title} onChangeTitle={newTitle => updateTitleSpan(newTitle)}/>
                         <IconButton onClick={changeRemoveTask}>
                             <DeleteForever/>

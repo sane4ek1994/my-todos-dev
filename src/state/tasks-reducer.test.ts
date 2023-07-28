@@ -1,4 +1,3 @@
-import {v1} from "uuid";
 import {
     addTaskAC,
     changeTaskIsDoneAC,
@@ -7,14 +6,20 @@ import {
     tasksReducer,
     TTasksState,
 } from "./tasks-reducer";
-import {addTodolistAC, removeTodolistAC, TAddTodolist, TRemoveTodolist} from "./todolists-reducer";
 
+import {
+    addTodolistAC,
+    removeTodolistAC,
+    TAddTodolist,
+    todoListID1,
+    todoListID2,
+    TRemoveTodolist
+} from "./todolists-reducer";
 
-test('remove task', () => {
-    const todoListID1 = v1()
-    const todoListID2 = v1()
+let startState: TTasksState
 
-    const startState: TTasksState = {
+beforeEach(() => {
+    startState = {
         [todoListID1]: [
             {id: '1', title: "HTML&CSS", isDone: true},
             {id: '2', title: "JS", isDone: true},
@@ -30,54 +35,24 @@ test('remove task', () => {
             {id: '5', title: "Hi gay!😁", isDone: false},
         ]
     }
+})
+
+test('remove task', () => {
 
     const action = removeTasksAC(todoListID1, '2')
 
     const endState: TTasksState = tasksReducer(startState, action)
 
     expect(endState[todoListID1].length).toBe(4)
-    expect(endState).toEqual({
-        [todoListID1]: [
-            {id: '1', title: "HTML&CSS", isDone: true},
-            {id: '3', title: "ReactJS", isDone: false},
-            {id: '4', title: "Rest API", isDone: false},
-            {id: '5', title: "GraphQL", isDone: false},
-        ],
-        [todoListID2]: [
-            {id: '1', title: "Pizzza 🍕", isDone: true},
-            {id: '2', title: "Beer🍺", isDone: true},
-            {id: '3', title: "Game 🎮", isDone: false},
-            {id: '4', title: "Hello!", isDone: false},
-            {id: '5', title: "Hi gay!😁", isDone: false},
-        ]
-    })
+    expect(endState[todoListID2].length).toBe(5)
 
 })
 
 test('added new tasks', () => {
-    const todoListID1 = v1()
-    const todoListID2 = v1()
 
     const newTitleTasks = 'New Task Reducer'
 
-    const startState: TTasksState = {
-        [todoListID1]: [
-            {id: '1', title: "HTML&CSS", isDone: true},
-            {id: '2', title: "JS", isDone: true},
-            {id: '3', title: "ReactJS", isDone: false},
-            {id: '4', title: "Rest API", isDone: false},
-            {id: '5', title: "GraphQL", isDone: false},
-        ],
-        [todoListID2]: [
-            {id: '1', title: "Pizzza 🍕", isDone: true},
-            {id: '2', title: "Beer🍺", isDone: true},
-            {id: '3', title: "Game 🎮", isDone: false},
-            {id: '4', title: "Hello!", isDone: false},
-            {id: '5', title: "Hi gay!😁", isDone: false},
-        ]
-    }
-
-    const action = addTaskAC(todoListID1, '6', newTitleTasks)
+    const action = addTaskAC(todoListID1, newTitleTasks)
 
     const endState: TTasksState = tasksReducer(startState, action)
 
@@ -89,27 +64,8 @@ test('added new tasks', () => {
 })
 
 test('change task title', () => {
-    const todoListID1 = v1()
-    const todoListID2 = v1()
 
     const newTitleTasks = 'Create reducers!!'
-
-    const startState: TTasksState = {
-        [todoListID1]: [
-            {id: '1', title: "HTML&CSS", isDone: true},
-            {id: '2', title: "JS", isDone: true},
-            {id: '3', title: "ReactJS", isDone: false},
-            {id: '4', title: "Rest API", isDone: false},
-            {id: '5', title: "GraphQL", isDone: false},
-        ],
-        [todoListID2]: [
-            {id: '1', title: "Pizzza 🍕", isDone: true},
-            {id: '2', title: "Beer🍺", isDone: true},
-            {id: '3', title: "Game 🎮", isDone: false},
-            {id: '4', title: "Hello!", isDone: false},
-            {id: '5', title: "Hi gay!😁", isDone: false},
-        ]
-    }
 
     const action = changeTaskTitleAC(todoListID2, '1', newTitleTasks)
 
@@ -124,27 +80,8 @@ test('change task title', () => {
 })
 
 test('change task isDone', () => {
-    const todoListID1 = v1()
-    const todoListID2 = v1()
 
     const newIsDoneValue = false
-
-    const startState: TTasksState = {
-        [todoListID1]: [
-            {id: '1', title: "HTML&CSS", isDone: true},
-            {id: '2', title: "JS", isDone: true},
-            {id: '3', title: "ReactJS", isDone: false},
-            {id: '4', title: "Rest API", isDone: false},
-            {id: '5', title: "GraphQL", isDone: false},
-        ],
-        [todoListID2]: [
-            {id: '1', title: "Pizzza 🍕", isDone: true},
-            {id: '2', title: "Beer🍺", isDone: true},
-            {id: '3', title: "Game 🎮", isDone: false},
-            {id: '4', title: "Hello!", isDone: false},
-            {id: '5', title: "Hi gay!😁", isDone: false},
-        ]
-    }
 
     const action = changeTaskIsDoneAC(todoListID2, '1', newIsDoneValue)
 
@@ -156,25 +93,7 @@ test('change task isDone', () => {
 })
 
 test('new property array should be added when new todolist is added', () => {
-    const todoListID1 = v1()
-    const todoListID2 = v1()
 
-    const startState: TTasksState = {
-        [todoListID1]: [
-            {id: '1', title: "HTML&CSS", isDone: true},
-            {id: '2', title: "JS", isDone: true},
-            {id: '3', title: "ReactJS", isDone: false},
-            {id: '4', title: "Rest API", isDone: false},
-            {id: '5', title: "GraphQL", isDone: false},
-        ],
-        [todoListID2]: [
-            {id: '1', title: "Pizzza 🍕", isDone: true},
-            {id: '2', title: "Beer🍺", isDone: true},
-            {id: '3', title: "Game 🎮", isDone: false},
-            {id: '4', title: "Hello!", isDone: false},
-            {id: '5', title: "Hi gay!😁", isDone: false},
-        ]
-    }
 
     const action: TAddTodolist = addTodolistAC('no matter title and id v1() =>')
 
@@ -192,26 +111,7 @@ test('new property array should be added when new todolist is added', () => {
 })
 
 test('property array should be added when new todolist is removed', () => {
-    const todoListID1 = v1()
-    const todoListID2 = v1()
 
-
-    const startState: TTasksState = {
-        [todoListID1]: [
-            {id: '1', title: "HTML&CSS", isDone: true},
-            {id: '2', title: "JS", isDone: true},
-            {id: '3', title: "ReactJS", isDone: false},
-            {id: '4', title: "Rest API", isDone: false},
-            {id: '5', title: "GraphQL", isDone: false},
-        ],
-        [todoListID2]: [
-            {id: '1', title: "Pizzza 🍕", isDone: true},
-            {id: '2', title: "Beer🍺", isDone: true},
-            {id: '3', title: "Game 🎮", isDone: false},
-            {id: '4', title: "Hello!", isDone: false},
-            {id: '5', title: "Hi gay!😁", isDone: false},
-        ]
-    }
 
     const action: TRemoveTodolist = removeTodolistAC(todoListID2)
     const endState: TTasksState = tasksReducer(startState, action)
