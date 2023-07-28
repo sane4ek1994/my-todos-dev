@@ -39,7 +39,7 @@ beforeEach(() => {
 
 test('remove task', () => {
 
-    const action = removeTasksAC(todoListID1, '2')
+    const action = removeTasksAC(todoListID1, '3')
 
     const endState: TTasksState = tasksReducer(startState, action)
 
