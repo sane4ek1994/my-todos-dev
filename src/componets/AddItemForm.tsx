@@ -1,6 +1,7 @@
 import {ChangeEvent, KeyboardEvent, useState} from 'react';
-import Input from "./Input";
-import Button from "./Button";
+import {IconButton, TextField} from "@mui/material";
+import {PlaylistAdd} from '@mui/icons-material';
+
 
 type TAddItemForm = {
     addItem: (title: string) => void
@@ -33,10 +34,17 @@ export const AddItemForm = ({addItem}: TAddItemForm) => {
 
     return (
         <div>
-            <Input type='text' onKeyDown={onAddKeyHandler} className={error ? 'error' : ''}
-                   onChange={onChangeTitleHandler} value={newTitle}/>
-            <Button callback={addTaskHandler} name='➕'/>
-            {error && <div className='error-message'>{error}</div>}
+            <TextField label="Type value"
+                       variant="standard"
+                       helperText={error}
+                       error={!!error}
+                       value={newTitle}
+                       onChange={onChangeTitleHandler}
+                       onKeyDown={onAddKeyHandler}
+                       />
+            <IconButton onClick={addTaskHandler}>
+                <PlaylistAdd/>
+            </IconButton>
         </div>
     );
 };
