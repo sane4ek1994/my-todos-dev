@@ -1,12 +1,12 @@
-import {ChangeEvent, useState} from 'react';
+import React, {ChangeEvent, useState} from 'react';
 import {TextField} from "@mui/material";
 
 type TEditableSpan = {
     title: string
     onChangeTitle: (newTitle: string) => void
 }
-export const EditableSpan = ({title, onChangeTitle}: TEditableSpan) => {
-
+export const EditableSpan = React.memo(({title, onChangeTitle}: TEditableSpan) => {
+    console.log('EditableSpan')
     const [editMode, setEditMode] = useState(false);
     const [newTitle, setNewTitle] = useState(title);
 
@@ -22,7 +22,8 @@ export const EditableSpan = ({title, onChangeTitle}: TEditableSpan) => {
 
     return (
         editMode ?
-            <TextField variant="standard" onBlur={activateViewMode} autoFocus onChange={changeNewTitle} value={newTitle} type="text"/>
+            <TextField variant="standard" onBlur={activateViewMode} autoFocus onChange={changeNewTitle} value={newTitle}
+                       type="text"/>
             : <span onDoubleClick={activateEditMode}>{title}</span>
     );
-};
+});
