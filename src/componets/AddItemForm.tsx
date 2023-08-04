@@ -1,4 +1,4 @@
-import {ChangeEvent, KeyboardEvent, useState} from 'react';
+import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
 import {IconButton, TextField} from "@mui/material";
 import {PlaylistAdd} from '@mui/icons-material';
 
@@ -7,7 +7,7 @@ type TAddItemForm = {
     addItem: (title: string) => void
 }
 
-export const AddItemForm = ({addItem}: TAddItemForm) => {
+export const AddItemForm = React.memo(({addItem}: TAddItemForm) => {
     const [newTitle, setNewTitle] = useState('');
     const [error, setError] = useState<string | null>(null);
 
@@ -41,10 +41,10 @@ export const AddItemForm = ({addItem}: TAddItemForm) => {
                        value={newTitle}
                        onChange={onChangeTitleHandler}
                        onKeyDown={onAddKeyHandler}
-                       />
+            />
             <IconButton onClick={addTaskHandler}>
                 <PlaylistAdd/>
             </IconButton>
         </div>
     );
-};
+});

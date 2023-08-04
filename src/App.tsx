@@ -1,4 +1,4 @@
-import TodoList from "./componets/TodoList";
+import {TodoList} from "./componets/TodoList";
 import S from './App.module.css'
 import {AddItemForm} from "./componets/AddItemForm";
 import {AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from '@mui/material';
@@ -7,6 +7,7 @@ import {useAutoAnimate} from "@formkit/auto-animate/react";
 import {useDispatch, useSelector} from "react-redux";
 import {TAppRootState} from "./state/store";
 import {addTodolistAC} from "./state/todolists-reducer";
+import {useCallback} from "react";
 
 export type TFilterTask = 'all' | 'completed' | 'active'
 
@@ -25,9 +26,9 @@ function App() {
 
     const [parent] = useAutoAnimate()
 
-    const addTodoList = (title: string) => {
+    const addTodoList = useCallback((title: string) => {
         dispatch(addTodolistAC(title))
-    }
+    }, [dispatch])
 
     return (
         <div className={S.App}>
