@@ -1,15 +1,15 @@
 import React, {useCallback} from 'react';
-import {TFilterTask, TTodoList} from "../App";
+import {TFilterTask, TTodoList} from "../../App";
 import {useAutoAnimate} from '@formkit/auto-animate/react'
-import {AddItemForm} from "./AddItemForm";
-import {EditableSpan} from "./EditableSpan";
+import {AddItemForm} from "../AddItemForm/AddItemForm";
+import {EditableSpan} from "../EditableSpan/EditableSpan";
 import {Button, IconButton} from "@mui/material";
 import {DeleteForever} from '@mui/icons-material';
 import {useDispatch, useSelector} from "react-redux";
-import {TAppRootState} from "../state/store";
-import {addTaskAC,} from "../state/tasks-reducer";
-import {changeTodolistFilterAC, changeTodolistTitleAC, removeTodolistAC} from "../state/todolists-reducer";
-import {Task} from "./Task";
+import {TAppRootState} from "../../state/store";
+import {addTaskAC,} from "../../state/tasks-reducer";
+import {changeTodolistFilterAC, changeTodolistTitleAC, removeTodolistAC} from "../../state/todolists-reducer";
+import {Task} from "../Task/Task";
 
 export type TTasks = {
     id: string
@@ -21,11 +21,7 @@ type TProps = {
     todolist: TTodoList
 }
 
-
-export const TodoList = React.memo((props: TProps) => {
-    console.log('todolist')
-    const {todolist} = props
-
+export const TodoList = React.memo(({todolist}: TProps) => {
     //берем один тудулист из стейта
     // const todolist = useSelector<TAppRootState, TTodoList>(state => state.todolists.filter(todo => todo.id === categoryId)[0])
 

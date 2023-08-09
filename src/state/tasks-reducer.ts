@@ -1,4 +1,4 @@
-import {TTasks} from '../componets/TodoList'
+import {TTasks} from '../componets/TodoList/TodoList'
 import {v1} from 'uuid'
 import {TAddTodolist, todoListID1, todoListID2, TRemoveTodolist} from './todolists-reducer'
 

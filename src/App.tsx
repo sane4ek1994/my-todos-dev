@@ -1,6 +1,6 @@
-import {TodoList} from "./componets/TodoList";
+import {TodoList} from "./componets/TodoList/TodoList";
 import S from './App.module.css'
-import {AddItemForm} from "./componets/AddItemForm";
+import {AddItemForm} from "./componets/AddItemForm/AddItemForm";
 import {AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from '@mui/material';
 import {Menu} from '@mui/icons-material';
 import {useAutoAnimate} from "@formkit/auto-animate/react";
@@ -31,7 +31,7 @@ function App() {
     }, [dispatch])
 
     return (
-        <div className={S.App}>
+        <div className={S.App} >
             <AppBar position="static">
                 <Toolbar>
                     <IconButton
