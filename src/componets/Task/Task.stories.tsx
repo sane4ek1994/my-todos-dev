@@ -1,18 +1,42 @@
+import type {Meta, StoryObj} from '@storybook/react';
 import {Task} from "./Task";
-import {action} from '@storybook/addon-actions'
 import {ReduxStoreProviderDecorator} from "../../stories/ReduxStoreProviderDecorator";
+import {useSelector} from "react-redux";
+import {TAppRootState} from "../../state/store";
+import {todoListID2} from "../../state/todolists-reducer";
+import {TTasks} from "../TodoList/TodoList";
 
-export default {
-    title: 'Task Component',
+const meta: Meta<typeof Task> = {
+    title: 'TODOLIST/Task',
     component: Task,
-    decorators: [ReduxStoreProviderDecorator]
-}
-//Подчини эту stories ⚒️
-// const callback = action('Task task')
+    decorators: [ReduxStoreProviderDecorator],
+    tags: ['autodocs'],
+};
 
-const propsTask = {id: '123', isDone: false, title: 'Home work!', todolistId: '5555'}
-export const TaskExample = () => {
-    return <>
-        <Task {...propsTask}/>
-    </>
+
+export default meta;
+type Story = StoryObj<typeof Task>;
+
+const TaskWitchRedux = () => {
+
+    const tasks = useSelector<TAppRootState, TTasks[]>(state => state.tasks[todoListID2])
+
+    return (
+        <>
+            {tasks.map(task => <Task {...task} todolistId={todoListID2}/>)}
+        </>
+    )
+}
+
+export const TaskIsDoneStories: Story = {
+    args: {
+        id: '123',
+        isDone: true,
+        title: 'TEST TASK COMPONENT',
+        todolistId: '124'
+    }
+
+}
+export const TaskStory = {
+    render: () => <TaskWitchRedux/>
 }

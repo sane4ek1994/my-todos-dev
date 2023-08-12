@@ -3,7 +3,7 @@ import {IconButton, TextField} from "@mui/material";
 import {PlaylistAdd} from '@mui/icons-material';
 
 
-type TAddItemForm = {
+export type TAddItemForm = {
     addItem: (title: string) => void
 }
 

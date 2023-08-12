@@ -1,17 +1,34 @@
-import {TodoList} from './TodoList'
+import type {Meta, StoryObj} from '@storybook/react';
+import {TodoList} from "./TodoList";
 import {ReduxStoreProviderDecorator} from "../../stories/ReduxStoreProviderDecorator";
+import {useSelector} from "react-redux";
+import {TAppRootState} from "../../state/store";
 import {TTodoList} from "../../App";
 
 
-export default {
-    title: 'TodoList Component',
+const meta: Meta<typeof TodoList> = {
+    title: 'TODOLIST/TodoList',
     component: TodoList,
-    decorators: [ReduxStoreProviderDecorator]
+    decorators: [ReduxStoreProviderDecorator],
+    tags: ['autodocs'],
+};
+
+
+export default meta;
+type Story = StoryObj<typeof TodoList>;
+
+const TodoListWitchRedux = () => {
+
+    const todolists = useSelector<TAppRootState, TTodoList[]>(state => state.todolists)
+    console.log(todolists)
+
+    return (
+        <>
+            {todolists.map(todolist => <TodoList todolist={todolist}/>)}
+        </>
+    )
 }
 
-
-const todolistItem: TTodoList = {id: '111', title: 'I`m testing todo item', filter: 'completed'}
-
-export const TodoListExample = () => {
-    return <TodoList todolist={todolistItem}/>
+export const TodoListStory = {
+    render: () => <TodoListWitchRedux/>
 }
