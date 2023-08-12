@@ -42,6 +42,9 @@
       "plugin:storybook/recommended"
     ]
   },
+  "overrides": {
+    "react-refresh": "0.11.0"
+  },
   "browserslist": {
     "production": [
       ">0.2%",
