@@ -31,7 +31,7 @@ function App() {
     }, [dispatch])
 
     return (
-        <div className={S.App} >
+        <div className={S.App}>
             <AppBar position="static">
                 <Toolbar>
                     <IconButton
