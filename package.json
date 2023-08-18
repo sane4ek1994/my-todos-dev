@@ -17,7 +17,6 @@
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
     "@types/uuid": "^9.0.2",
-    "netlify-cli": "^16.0.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-redux": "^8.1.1",
@@ -82,5 +81,10 @@
     "start-server-and-test": "^2.0.0",
     "storybook": "7.3.0-alpha.0",
     "webpack": "5.88.2"
+  },
+  "resolutions": {
+    "webpack": "5.88.2"
   }
 }
+
+
