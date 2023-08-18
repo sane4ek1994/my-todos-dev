@@ -6,7 +6,6 @@ type TEditableSpan = {
     onChangeTitle: (newTitle: string) => void
 }
 export const EditableSpan = React.memo(({title, onChangeTitle}: TEditableSpan) => {
-    console.log('EditableSpan')
     const [editMode, setEditMode] = useState(false);
     const [newTitle, setNewTitle] = useState(title);
 
