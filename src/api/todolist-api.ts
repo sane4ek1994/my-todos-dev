@@ -8,7 +8,7 @@ export type ResponseType<D = {}> = {
 }
 
 
-type TodolistsType = {
+export type TodolistsType = {
     id: string
     addedDate: string
     order: number

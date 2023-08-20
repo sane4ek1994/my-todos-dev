@@ -1,16 +1,31 @@
 import axios from "axios";
 
-type TaskType = {
-    "id": string
-    "title": string
-    "description": string
-    "todoListId": string
-    "order": number
-    "status": number
-    "priority": number
-    "startDate": string
-    "deadline": string
-    "addedDate": string
+export enum TaskStatuses {
+    New,
+    InProgress,
+    Completed,
+    Draft
+}
+
+export enum TodoTaskPriorities {
+    Low,
+    Middle,
+    Hi,
+    Urgently,
+    Later
+}
+
+export type TaskType = {
+    id: string
+    title: string
+    description: string
+    todoListId: string
+    order: number
+    status: TaskStatuses
+    priority: TodoTaskPriorities
+    startDate: string
+    deadline: string
+    addedDate: string
 }
 
 type GetTaskResponseType = {

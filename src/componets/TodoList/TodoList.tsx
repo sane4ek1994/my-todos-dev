@@ -1,5 +1,4 @@
 import React, {useCallback} from 'react';
-import {TFilterTask, TTodoList} from "../../App";
 import {useAutoAnimate} from '@formkit/auto-animate/react'
 import {AddItemForm} from "../AddItemForm/AddItemForm";
 import {EditableSpan} from "../EditableSpan/EditableSpan";
@@ -8,24 +7,25 @@ import {DeleteForever} from '@mui/icons-material';
 import {useDispatch, useSelector} from "react-redux";
 import {TAppRootState} from "../../state/store";
 import {addTaskAC,} from "../../state/tasks-reducer";
-import {changeTodolistFilterAC, changeTodolistTitleAC, removeTodolistAC} from "../../state/todolists-reducer";
+import {
+    changeTodolistFilterAC,
+    changeTodolistTitleAC,
+    removeTodolistAC,
+    TFilterTask, TodolistDomainType
+} from "../../state/todolists-reducer";
 import {Task} from "../Task/Task";
+import {TaskStatuses, TaskType} from "../../api/task-api";
 
-export type TTasks = {
-    id: string
-    title: string
-    isDone: boolean
-}
 
 type TProps = {
-    todolist: TTodoList
+    todolist: TodolistDomainType
 }
 
 export const TodoList = React.memo(({todolist}: TProps) => {
     //берем один тудулист из стейта
     // const todolist = useSelector<TAppRootState, TTodoList>(state => state.todolists.filter(todo => todo.id === categoryId)[0])
 
-    const tasks = useSelector<TAppRootState, TTasks[]>(state => state.tasks[todolist.id])
+    const tasks = useSelector<TAppRootState, TaskType[]>(state => state.tasks[todolist.id])
 
     const {title, filter} = todolist
 
@@ -45,9 +45,9 @@ export const TodoList = React.memo(({todolist}: TProps) => {
         let filteredTask = tasks
         switch (filter) {
             case "active":
-                return filteredTask?.filter(t => !t.isDone)
+                return filteredTask?.filter(t => t.status === TaskStatuses.New)
             case "completed":
-                return filteredTask?.filter(t => t.isDone)
+                return filteredTask?.filter(t => t.status === TaskStatuses.Completed)
             default:
                 return filteredTask
         }

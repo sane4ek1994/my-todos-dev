@@ -1,5 +1,5 @@
-import {TFilterTask, TTodoList} from "../App";
 import {v1} from "uuid";
+import {TodolistsType} from "../api/todolist-api";
 
 export type TRemoveTodolist = ReturnType<typeof removeTodolistAC>
 export type TAddTodolist = ReturnType<typeof addTodolistAC>
@@ -10,17 +10,25 @@ type TActions = TRemoveTodolist | TAddTodolist | TChangeTodolistTitle | TChangeT
 export const todoListID1 = v1()
 export const todoListID2 = v1()
 
-const initialState: TTodoList[] = [
-    {id: todoListID1, title: 'Todo list', filter: 'all'},
-    {id: todoListID2, title: 'Hobby list', filter: 'active'},
+export type TFilterTask = 'all' | 'completed' | 'active'
+export type TodolistDomainType = TodolistsType & {
+    filter: TFilterTask
+}
+
+const initialState: TodolistDomainType[] = [
+    {id: todoListID1, title: 'Todo list', filter: 'all', addedDate: '', order: 0},
+    {id: todoListID2, title: 'Hobby list', filter: 'active', addedDate: '', order: 0},
 ]
 
-export const todolistsReducer = (state: TTodoList[] = initialState, action: TActions): TTodoList[] => {
+export const todolistsReducer = (state = initialState, action: TActions): TodolistDomainType[] => {
     switch (action.type) {
         case 'REMOVE-TODOLIST':
             return state.filter(t => t.id !== action.id)
         case 'ADD-TODOLIST':
-            return [{id: action.todolistId, title: action.title, filter: "all"}, ...state]
+            return [{
+                id: action.todolistId, title: action.title, filter: "all", addedDate: '',
+                order: 0
+            }, ...state]
         case 'CHANGE-TODOLIST-TITLE':
             return state.map(categories => categories.id === action.id ? {
                 ...categories,

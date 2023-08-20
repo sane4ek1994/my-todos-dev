@@ -1,25 +1,24 @@
-import {TFilterTask, TTodoList} from '../App'
 import {
     addTodolistAC,
     changeTodolistFilterAC,
     changeTodolistTitleAC,
-    removeTodolistAC, todoListID1, todoListID2,
+    removeTodolistAC, TFilterTask, TodolistDomainType, todoListID1, todoListID2,
     todolistsReducer
 } from "./todolists-reducer";
 
-let startState: TTodoList[]
+let startState: TodolistDomainType[]
 
 beforeEach(() => {
     startState = [
-        {id: todoListID1, title: 'Todo list', filter: 'all'},
-        {id: todoListID2, title: 'Hobby list', filter: 'active'},
+        {id: todoListID1, title: 'Todo list', filter: 'all', addedDate: '', order: 0},
+        {id: todoListID2, title: 'Hobby list', filter: 'active', addedDate: '', order: 0},
     ]
 })
 
 test('correct todolist should be removed', () => {
 
 
-    const endState: TTodoList[] = todolistsReducer(startState, removeTodolistAC(todoListID1))
+    const endState: TodolistDomainType[] = todolistsReducer(startState, removeTodolistAC(todoListID1))
 
     expect(endState.length).toBe(1)
     expect(endState[0].id).not.toBe(todoListID1)
@@ -29,7 +28,7 @@ test('correct todolist should be added', () => {
 
     const newTitle = 'React & Redux'
 
-    const endState: TTodoList[] = todolistsReducer(startState, addTodolistAC(newTitle))
+    const endState: TodolistDomainType[] = todolistsReducer(startState, addTodolistAC(newTitle))
 
     expect(endState[0].title).toBe(newTitle)
     expect(endState.length).not.toBe(2)
@@ -38,7 +37,7 @@ test('correct todolist should be added', () => {
 test('correct title of todolist should be changed', () => {
 
     const newTitle = 'Im new title'
-    const endState: TTodoList[] = todolistsReducer(startState, changeTodolistTitleAC(todoListID1, newTitle))
+    const endState: TodolistDomainType[] = todolistsReducer(startState, changeTodolistTitleAC(todoListID1, newTitle))
 
     expect(endState[0].title).toBe(newTitle)
     expect(endState[1].title).toBe('Hobby list')

@@ -6,21 +6,13 @@ import {Menu} from '@mui/icons-material';
 import {useAutoAnimate} from "@formkit/auto-animate/react";
 import {useDispatch, useSelector} from "react-redux";
 import {TAppRootState} from "./state/store";
-import {addTodolistAC} from "./state/todolists-reducer";
+import {addTodolistAC, TodolistDomainType} from "./state/todolists-reducer";
 import {useCallback} from "react";
-
-export type TFilterTask = 'all' | 'completed' | 'active'
-
-export type TTodoList = {
-    id: string
-    title: string
-    filter: TFilterTask
-}
 
 
 function App() {
 
-    const categories = useSelector<TAppRootState, TTodoList[]>(state => state.todolists)
+    const categories = useSelector<TAppRootState, TodolistDomainType[]>(state => state.todolists)
 
     const dispatch = useDispatch()
 

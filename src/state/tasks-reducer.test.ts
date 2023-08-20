@@ -15,24 +15,126 @@ import {
     todoListID2,
     TRemoveTodolist
 } from "./todolists-reducer";
+import {v1} from "uuid";
+import {TaskStatuses, TodoTaskPriorities} from "../api/task-api";
 
 let startState: TTasksState
 
 beforeEach(() => {
     startState = {
         [todoListID1]: [
-            {id: '1', title: "HTML&CSS", isDone: true},
-            {id: '2', title: "JS", isDone: true},
-            {id: '3', title: "ReactJS", isDone: false},
-            {id: '4', title: "Rest API", isDone: false},
-            {id: '5', title: "GraphQL", isDone: false},
+            {
+                id: v1(),
+                title: 'HTML&CSS',
+                status: TaskStatuses.Completed,
+                description: '',
+                todoListId: '',
+                order: 0,
+                addedDate: '',
+                deadline: '',
+                startDate: '',
+                priority: TodoTaskPriorities.Low
+            },
+            {
+                id: v1(),
+                title: 'JS',
+                status: TaskStatuses.Completed,
+                description: '',
+                todoListId: '',
+                order: 0,
+                addedDate: '',
+                deadline: '',
+                startDate: '',
+                priority: TodoTaskPriorities.Low
+            },
+            {
+                id: v1(),
+                title: 'ReactJS',
+                status: TaskStatuses.New,
+                description: '',
+                todoListId: '',
+                order: 0,
+                addedDate: '',
+                deadline: '',
+                startDate: '',
+                priority: TodoTaskPriorities.Low
+            },
+            {
+                id: v1(),
+                title: 'Rest API',
+                status: TaskStatuses.New,
+                description: '',
+                todoListId: '',
+                order: 0,
+                addedDate: '',
+                deadline: '',
+                startDate: '',
+                priority: TodoTaskPriorities.Low
+            },
+            {
+                id: v1(),
+                title: 'GraphQL',
+                status: TaskStatuses.New,
+                description: '',
+                todoListId: '',
+                order: 0,
+                addedDate: '',
+                deadline: '',
+                startDate: '',
+                priority: TodoTaskPriorities.Low
+            }
         ],
         [todoListID2]: [
-            {id: '1', title: "Pizzza 🍕", isDone: true},
-            {id: '2', title: "Beer🍺", isDone: true},
-            {id: '3', title: "Game 🎮", isDone: false},
-            {id: '4', title: "Hello!", isDone: false},
-            {id: '5', title: "Hi gay!😁", isDone: false},
+            {
+                id: v1(), title: 'Pizzza 🍕', status: TaskStatuses.Completed,
+                description: '',
+                todoListId: '',
+                order: 0,
+                addedDate: '',
+                deadline: '',
+                startDate: '',
+                priority: TodoTaskPriorities.Low
+            },
+            {
+                id: v1(), title: 'Beer🍺', status: TaskStatuses.Completed,
+                description: '',
+                todoListId: '',
+                order: 0,
+                addedDate: '',
+                deadline: '',
+                startDate: '',
+                priority: TodoTaskPriorities.Low
+            },
+            {
+                id: v1(), title: 'Game 🎮', status: TaskStatuses.Completed,
+                description: '',
+                todoListId: '',
+                order: 0,
+                addedDate: '',
+                deadline: '',
+                startDate: '',
+                priority: TodoTaskPriorities.Low
+            },
+            {
+                id: v1(), title: 'Hello!', status: TaskStatuses.New,
+                description: '',
+                todoListId: '',
+                order: 0,
+                addedDate: '',
+                deadline: '',
+                startDate: '',
+                priority: TodoTaskPriorities.Low
+            },
+            {
+                id: v1(), title: 'Hi gay!😁', status: TaskStatuses.New,
+                description: '',
+                todoListId: '',
+                order: 0,
+                addedDate: '',
+                deadline: '',
+                startDate: '',
+                priority: TodoTaskPriorities.Low
+            }
         ]
     }
 })
@@ -59,7 +161,7 @@ test('added new tasks', () => {
     expect(endState[todoListID1].length).toBe(6)
     expect(endState[todoListID1][0].title).toBe(newTitleTasks)
     expect(endState[todoListID1][0]).toBeDefined()
-    expect(endState[todoListID1][5].isDone).toBeFalsy()
+    expect(endState[todoListID1][5].status).toBe(TaskStatuses.New)
 
 })
 
@@ -81,14 +183,13 @@ test('change task title', () => {
 
 test('change task isDone', () => {
 
-    const newIsDoneValue = false
 
-    const action = changeTaskIsDoneAC(todoListID2, '1', newIsDoneValue)
+    const action = changeTaskIsDoneAC(todoListID2, '1', TaskStatuses.New)
 
     const endState: TTasksState = tasksReducer(startState, action)
 
     expect(startState[todoListID2]).not.toEqual(endState[todoListID2])
-    expect(endState[todoListID2][0].isDone).toBe(false)
+    expect(endState[todoListID2][0].status).toBe(TaskStatuses.New)
 
 })
 
