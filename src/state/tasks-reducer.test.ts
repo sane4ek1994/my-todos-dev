@@ -24,7 +24,7 @@ beforeEach(() => {
     startState = {
         [todoListID1]: [
             {
-                id: v1(),
+                id: '1',
                 title: 'HTML&CSS',
                 status: TaskStatuses.Completed,
                 description: '',
@@ -36,7 +36,7 @@ beforeEach(() => {
                 priority: TodoTaskPriorities.Low
             },
             {
-                id: v1(),
+                id: '2',
                 title: 'JS',
                 status: TaskStatuses.Completed,
                 description: '',
@@ -48,7 +48,7 @@ beforeEach(() => {
                 priority: TodoTaskPriorities.Low
             },
             {
-                id: v1(),
+                id: '3',
                 title: 'ReactJS',
                 status: TaskStatuses.New,
                 description: '',
@@ -60,7 +60,7 @@ beforeEach(() => {
                 priority: TodoTaskPriorities.Low
             },
             {
-                id: v1(),
+                id: '4',
                 title: 'Rest API',
                 status: TaskStatuses.New,
                 description: '',
@@ -72,7 +72,7 @@ beforeEach(() => {
                 priority: TodoTaskPriorities.Low
             },
             {
-                id: v1(),
+                id: '5',
                 title: 'GraphQL',
                 status: TaskStatuses.New,
                 description: '',
@@ -86,7 +86,9 @@ beforeEach(() => {
         ],
         [todoListID2]: [
             {
-                id: v1(), title: 'Pizzza 🍕', status: TaskStatuses.Completed,
+                id: '1',
+                title: 'Pizzza 🍕',
+                status: TaskStatuses.Completed,
                 description: '',
                 todoListId: '',
                 order: 0,
@@ -96,7 +98,9 @@ beforeEach(() => {
                 priority: TodoTaskPriorities.Low
             },
             {
-                id: v1(), title: 'Beer🍺', status: TaskStatuses.Completed,
+                id: '2',
+                title: 'Beer🍺',
+                status: TaskStatuses.Completed,
                 description: '',
                 todoListId: '',
                 order: 0,
@@ -106,7 +110,9 @@ beforeEach(() => {
                 priority: TodoTaskPriorities.Low
             },
             {
-                id: v1(), title: 'Game 🎮', status: TaskStatuses.Completed,
+                id: '3',
+                title: 'Game 🎮',
+                status: TaskStatuses.Completed,
                 description: '',
                 todoListId: '',
                 order: 0,
@@ -116,7 +122,9 @@ beforeEach(() => {
                 priority: TodoTaskPriorities.Low
             },
             {
-                id: v1(), title: 'Hello!', status: TaskStatuses.New,
+                id: '4',
+                title: 'Hello!',
+                status: TaskStatuses.New,
                 description: '',
                 todoListId: '',
                 order: 0,
@@ -126,7 +134,9 @@ beforeEach(() => {
                 priority: TodoTaskPriorities.Low
             },
             {
-                id: v1(), title: 'Hi gay!😁', status: TaskStatuses.New,
+                id: '5',
+                title: 'Hi gay!😁',
+                status: TaskStatuses.New,
                 description: '',
                 todoListId: '',
                 order: 0,
@@ -174,7 +184,7 @@ test('change task title', () => {
     const endState: TTasksState = tasksReducer(startState, action)
 
     expect(endState[todoListID1][0].title).toBe('HTML&CSS')
-    expect(startState[todoListID2][0].title).toBe("Pizzza 🍕")
+    expect(startState[todoListID2][0].title).toBe('Pizzza 🍕')
     expect(endState[todoListID2][0].title).toBe(newTitleTasks)
     expect(startState[todoListID2].length).toBe(5)
     expect(endState[todoListID2].length).toBe(5)
