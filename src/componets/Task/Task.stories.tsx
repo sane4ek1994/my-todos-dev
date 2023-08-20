@@ -4,7 +4,8 @@ import {ReduxStoreProviderDecorator} from "../../stories/ReduxStoreProviderDecor
 import {useSelector} from "react-redux";
 import {TAppRootState} from "../../state/store";
 import {todoListID2} from "../../state/todolists-reducer";
-import {TTasks} from "../TodoList/TodoList";
+import {TaskStatuses, TaskType, TodoTaskPriorities} from "../../api/task-api";
+
 
 const meta: Meta<typeof Task> = {
     title: 'TODOLIST/Task',
@@ -19,7 +20,7 @@ type Story = StoryObj<typeof Task>;
 
 const TaskWitchRedux = () => {
 
-    const tasks = useSelector<TAppRootState, TTasks[]>(state => state.tasks[todoListID2])
+    const tasks = useSelector<TAppRootState, TaskType[]>(state => state.tasks[todoListID2])
 
     return (
         <>
@@ -31,9 +32,16 @@ const TaskWitchRedux = () => {
 export const TaskIsDoneStories: Story = {
     args: {
         id: '123',
-        isDone: true,
         title: 'TEST TASK COMPONENT',
-        todolistId: '124'
+        todolistId: '124',
+        status: TaskStatuses.New,
+        description: '',
+        todoListId: '',
+        order: 0,
+        addedDate: '',
+        deadline: '',
+        startDate: '',
+        priority: TodoTaskPriorities.Low
     }
 
 }
