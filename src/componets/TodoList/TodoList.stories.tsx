@@ -3,7 +3,7 @@ import {TodoList} from "./TodoList";
 import {ReduxStoreProviderDecorator} from "../../stories/ReduxStoreProviderDecorator";
 import {useSelector} from "react-redux";
 import {TAppRootState} from "../../state/store";
-import {TTodoList} from "../../App";
+import {TodolistDomainType} from "../../state/todolists-reducer";
 
 
 const meta: Meta<typeof TodoList> = {
@@ -19,8 +19,7 @@ type Story = StoryObj<typeof TodoList>;
 
 const TodoListWitchRedux = () => {
 
-    const todolists = useSelector<TAppRootState, TTodoList[]>(state => state.todolists)
-    console.log(todolists)
+    const todolists = useSelector<TAppRootState, TodolistDomainType[]>(state => state.todolists)
 
     return (
         <>

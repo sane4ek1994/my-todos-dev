@@ -1,31 +1,131 @@
-import {TTasks} from '../componets/TodoList/TodoList'
 import {v1} from 'uuid'
 import {TAddTodolist, todoListID1, todoListID2, TRemoveTodolist} from './todolists-reducer'
+import {TaskStatuses, TaskType, TodoTaskPriorities} from "../api/task-api";
 
 type TRemoveTask = ReturnType<typeof removeTasksAC>
 type TAddTask = ReturnType<typeof addTaskAC>
 type TChangeTitleTask = ReturnType<typeof changeTaskTitleAC>
 type TChangeIsDoneTask = ReturnType<typeof changeTaskIsDoneAC>
 export type TTasksState = {
-    [key: string]: TTasks[]
+    [key: string]: TaskType[]
 }
 
 type TActions = TRemoveTask | TAddTask | TChangeTitleTask | TChangeIsDoneTask | TAddTodolist | TRemoveTodolist
 
 const initialState: TTasksState = {
     [todoListID1]: [
-        {id: v1(), title: 'HTML&CSS', isDone: true},
-        {id: v1(), title: 'JS', isDone: true},
-        {id: v1(), title: 'ReactJS', isDone: false},
-        {id: v1(), title: 'Rest API', isDone: false},
-        {id: v1(), title: 'GraphQL', isDone: false}
+        {
+            id: v1(),
+            title: 'HTML&CSS',
+            status: TaskStatuses.Completed,
+            description: '',
+            todoListId: '',
+            order: 0,
+            addedDate: '',
+            deadline: '',
+            startDate: '',
+            priority: TodoTaskPriorities.Low
+        },
+        {
+            id: v1(),
+            title: 'JS',
+            status: TaskStatuses.Completed,
+            description: '',
+            todoListId: '',
+            order: 0,
+            addedDate: '',
+            deadline: '',
+            startDate: '',
+            priority: TodoTaskPriorities.Low
+        },
+        {
+            id: v1(),
+            title: 'ReactJS',
+            status: TaskStatuses.New,
+            description: '',
+            todoListId: '',
+            order: 0,
+            addedDate: '',
+            deadline: '',
+            startDate: '',
+            priority: TodoTaskPriorities.Low
+        },
+        {
+            id: v1(),
+            title: 'Rest API',
+            status: TaskStatuses.New,
+            description: '',
+            todoListId: '',
+            order: 0,
+            addedDate: '',
+            deadline: '',
+            startDate: '',
+            priority: TodoTaskPriorities.Low
+        },
+        {
+            id: v1(),
+            title: 'GraphQL',
+            status: TaskStatuses.New,
+            description: '',
+            todoListId: '',
+            order: 0,
+            addedDate: '',
+            deadline: '',
+            startDate: '',
+            priority: TodoTaskPriorities.Low
+        }
     ],
     [todoListID2]: [
-        {id: v1(), title: 'Pizzza 🍕', isDone: true},
-        {id: v1(), title: 'Beer🍺', isDone: true},
-        {id: v1(), title: 'Game 🎮', isDone: false},
-        {id: v1(), title: 'Hello!', isDone: false},
-        {id: v1(), title: 'Hi gay!😁', isDone: false}
+        {
+            id: v1(), title: 'Pizzza 🍕', status: TaskStatuses.Completed,
+            description: '',
+            todoListId: '',
+            order: 0,
+            addedDate: '',
+            deadline: '',
+            startDate: '',
+            priority: TodoTaskPriorities.Low
+        },
+        {
+            id: v1(), title: 'Beer🍺', status: TaskStatuses.Completed,
+            description: '',
+            todoListId: '',
+            order: 0,
+            addedDate: '',
+            deadline: '',
+            startDate: '',
+            priority: TodoTaskPriorities.Low
+        },
+        {
+            id: v1(), title: 'Game 🎮', status: TaskStatuses.Completed,
+            description: '',
+            todoListId: '',
+            order: 0,
+            addedDate: '',
+            deadline: '',
+            startDate: '',
+            priority: TodoTaskPriorities.Low
+        },
+        {
+            id: v1(), title: 'Hello!', status: TaskStatuses.New,
+            description: '',
+            todoListId: '',
+            order: 0,
+            addedDate: '',
+            deadline: '',
+            startDate: '',
+            priority: TodoTaskPriorities.Low
+        },
+        {
+            id: v1(), title: 'Hi gay!😁', status: TaskStatuses.New,
+            description: '',
+            todoListId: '',
+            order: 0,
+            addedDate: '',
+            deadline: '',
+            startDate: '',
+            priority: TodoTaskPriorities.Low
+        }
     ]
 }
 export const tasksReducer = (state: TTasksState = initialState, action: TActions): TTasksState => {
@@ -35,7 +135,18 @@ export const tasksReducer = (state: TTasksState = initialState, action: TActions
         case 'ADD-TASK':
             return {
                 ...state,
-                [action.todolistId]: [{id: v1(), title: action.title, isDone: false}, ...state[action.todolistId]]
+                [action.todolistId]: [{
+                    id: v1(),
+                    title: action.title,
+                    status: TaskStatuses.Completed,
+                    description: '',
+                    todoListId: action.todolistId,
+                    order: 0,
+                    addedDate: '',
+                    deadline: '',
+                    startDate: '',
+                    priority: TodoTaskPriorities.Low
+                }, ...state[action.todolistId]]
             }
         case 'CHANGE-TASK-TITLE':
             return {
@@ -56,7 +167,7 @@ export const tasksReducer = (state: TTasksState = initialState, action: TActions
                     list.id === action.categoryId
                         ? {
                             ...list,
-                            isDone: action.isDone
+                            status: action.status
                         }
                         : list
                 )
@@ -90,9 +201,9 @@ export const changeTaskTitleAC = (todolistId: string, id: string, title: string)
     title
 } as const)
 
-export const changeTaskIsDoneAC = (todolistId: string, categoryId: string, isDone: boolean) => ({
+export const changeTaskIsDoneAC = (todolistId: string, categoryId: string, status: TaskStatuses) => ({
     type: 'CHANGE-TASK-IS-DONE',
     todolistId,
     categoryId,
-    isDone
+    status
 } as const)
