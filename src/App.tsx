@@ -16,7 +16,6 @@ function App() {
     const dispatch = useAppDispatch()
 
     useEffect(() => {
-        // @ts-ignore
         dispatch(getTodolistsTC())
     }, [])
 
