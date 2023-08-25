@@ -1,17 +1,15 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import {useAutoAnimate} from '@formkit/auto-animate/react'
 import {AddItemForm} from "../AddItemForm/AddItemForm";
 import {EditableSpan} from "../EditableSpan/EditableSpan";
 import {Button, IconButton} from "@mui/material";
 import {DeleteForever} from '@mui/icons-material';
-import {useDispatch, useSelector} from "react-redux";
-import {TAppRootState} from "../../state/store";
-import {addTaskAC,} from "../../state/tasks-reducer";
+import {useAppDispatch, useAppSelector} from "../../state/store";
+import {addTaskTC, setTaskTC,} from "../../state/tasks-reducer";
 import {
     changeTodolistFilterAC,
-    changeTodolistTitleAC,
-    removeTodolistAC,
-    TFilterTask, TodolistDomainType
+    removeTodolistTC,
+    TFilterTask, TodolistDomainType, updateTitleTodolistTC
 } from "../../state/todolists-reducer";
 import {Task} from "../Task/Task";
 import {TaskStatuses, TaskType} from "../../api/task-api";
@@ -25,20 +23,24 @@ export const TodoList = React.memo(({todolist}: TProps) => {
     //берем один тудулист из стейта
     // const todolist = useSelector<TAppRootState, TTodoList>(state => state.todolists.filter(todo => todo.id === categoryId)[0])
 
-    const tasks = useSelector<TAppRootState, TaskType[]>(state => state.tasks[todolist.id])
+    const tasks = useAppSelector<TaskType[]>(state => state.tasks[todolist.id])
 
     const {title, filter} = todolist
 
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
 
     const [parent] = useAutoAnimate()
 
+    useEffect(() => {
+        dispatch(setTaskTC(todolist.id))
+    }, [])
 
-    const updateTodoListTitle = useCallback((newTitle: string) => dispatch(changeTodolistTitleAC(todolist.id, newTitle)), [todolist.id, dispatch])
 
-    const addNewTask = useCallback((title: string) => dispatch(addTaskAC(todolist.id, title)), [todolist.id, dispatch])
+    const updateTodoListTitle = useCallback((newTitle: string) => dispatch(updateTitleTodolistTC(newTitle, todolist.id)), [todolist.id, dispatch])
+
+    const addNewTask = useCallback((title: string) => dispatch(addTaskTC(todolist.id, title)), [todolist.id, dispatch])
     const changeFiltered = (valueFilter: TFilterTask) => dispatch(changeTodolistFilterAC(todolist.id, valueFilter))
-    const handleRemoveTodolist = () => dispatch(removeTodolistAC(todolist.id))
+    const handleRemoveTodolist = () => dispatch(removeTodolistTC(todolist.id))
 
 
     const filterTaskHandler = () => {
@@ -64,7 +66,7 @@ export const TodoList = React.memo(({todolist}: TProps) => {
 
             <AddItemForm addItem={addNewTask}/>
             <ul ref={parent}>
-                {filterTaskHandler()?.map(t => <Task key={t.id} todolistId={todolist.id} {...t}/>)}
+                {filterTaskHandler().map(t => <Task key={t.id} todolistId={todolist.id} {...t}/>)}
             </ul>
             <Button onClick={() => changeFiltered('all')}
                     variant={filter === 'all' ? 'contained' : 'text'}>All</Button>

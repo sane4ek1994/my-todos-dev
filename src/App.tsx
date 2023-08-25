@@ -4,22 +4,26 @@ import {AddItemForm} from "./componets/AddItemForm/AddItemForm";
 import {AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from '@mui/material';
 import {Menu} from '@mui/icons-material';
 import {useAutoAnimate} from "@formkit/auto-animate/react";
-import {useDispatch, useSelector} from "react-redux";
-import {TAppRootState} from "./state/store";
-import {addTodolistAC, TodolistDomainType} from "./state/todolists-reducer";
-import {useCallback} from "react";
+import {useAppDispatch, useAppSelector} from "./state/store";
+import {createTodolistTC, getTodolistsTC, TodolistDomainType} from "./state/todolists-reducer";
+import {useCallback, useEffect} from "react";
 
 
 function App() {
 
-    const categories = useSelector<TAppRootState, TodolistDomainType[]>(state => state.todolists)
+    const categories = useAppSelector<TodolistDomainType[]>(state => state.todolists)
 
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
+
+    useEffect(() => {
+        // @ts-ignore
+        dispatch(getTodolistsTC())
+    }, [])
 
     const [parent] = useAutoAnimate()
 
     const addTodoList = useCallback((title: string) => {
-        dispatch(addTodolistAC(title))
+        dispatch(createTodolistTC(title))
     }, [dispatch])
 
     return (

@@ -26,11 +26,12 @@ test('correct todolist should be removed', () => {
 
 test('correct todolist should be added', () => {
 
-    const newTitle = 'React & Redux'
 
-    const endState: TodolistDomainType[] = todolistsReducer(startState, addTodolistAC(newTitle))
+    const newTodos = {id: todoListID2, title: 'Hobby list', filter: 'active', addedDate: '', order: 0}
 
-    expect(endState[0].title).toBe(newTitle)
+    const endState: TodolistDomainType[] = todolistsReducer(startState, addTodolistAC(newTodos))
+
+    expect(endState[0].title).toBe(newTodos.title)
     expect(endState.length).not.toBe(2)
 })
 
