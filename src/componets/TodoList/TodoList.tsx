@@ -33,7 +33,7 @@ export const TodoList = React.memo(({todolist}: TProps) => {
 
     useEffect(() => {
         dispatch(setTaskTC(todolist.id))
-    }, [])
+    }, [dispatch, todolist.id])
 
 
     const updateTodoListTitle = useCallback((newTitle: string) => dispatch(updateTitleTodolistTC(newTitle, todolist.id)), [todolist.id, dispatch])

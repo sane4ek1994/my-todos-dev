@@ -17,7 +17,7 @@ function App() {
 
     useEffect(() => {
         dispatch(getTodolistsTC())
-    }, [])
+    }, [dispatch])
 
     const [parent] = useAutoAnimate()
 
