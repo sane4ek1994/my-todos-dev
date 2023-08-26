@@ -12,7 +12,7 @@ export type TTasksState = {
     [key: string]: TaskType[]
 }
 
-type TActions =
+export type TTaskActions =
     TRemoveTask
     | TAddTask
     | TChangeTitleTask
@@ -23,7 +23,7 @@ type TActions =
     | TSetTasks
 
 const initialState: TTasksState = {}
-export const tasksReducer = (state: TTasksState = initialState, action: TActions): TTasksState => {
+export const tasksReducer = (state: TTasksState = initialState, action: TTaskActions): TTasksState => {
     switch (action.type) {
         case 'REMOVE-TASK':
             return {...state, [action.todolistId]: state[action.todolistId].filter(t => t.id !== action.id)}

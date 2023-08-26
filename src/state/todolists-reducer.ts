@@ -7,7 +7,8 @@ export type TAddTodolist = ReturnType<typeof addTodolistAC>
 type TChangeTodolistTitle = ReturnType<typeof changeTodolistTitleAC>
 type TChangeTodolistFilter = ReturnType<typeof changeTodolistFilterAC>
 export type TSetTodolist = ReturnType<typeof setTodolistAC>
-type TActions = TRemoveTodolist | TAddTodolist | TChangeTodolistTitle | TChangeTodolistFilter | TSetTodolist
+export type TTodosActions = TRemoveTodolist | TAddTodolist | TChangeTodolistTitle | TChangeTodolistFilter | TSetTodolist
+
 
 export const todoListID1 = v1()
 export const todoListID2 = v1()
@@ -19,7 +20,7 @@ export type TodolistDomainType = TodolistsType & {
 
 const initialState: TodolistDomainType[] = []
 
-export const todolistsReducer = (state = initialState, action: TActions): TodolistDomainType[] => {
+export const todolistsReducer = (state = initialState, action: TTodosActions): TodolistDomainType[] => {
     switch (action.type) {
         case 'SET-TODOLISTS':
             return action.todos.map(tl => ({...tl, filter: 'all'}))
