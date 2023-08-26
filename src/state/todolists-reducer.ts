@@ -1,6 +1,7 @@
 import {v1} from "uuid";
 import {todolistAPI, TodolistsType} from "../api/todolist-api";
 import {Dispatch} from "redux";
+import {AppActionsType} from "./store";
 
 export type TRemoveTodolist = ReturnType<typeof removeTodolistAC>
 export type TAddTodolist = ReturnType<typeof addTodolistAC>
@@ -60,28 +61,27 @@ export const setTodolistAC = (todos: TodolistsType[]) => ({type: 'SET-TODOLISTS'
 
 //Thunks
 
-export const getTodolistsTC = () => (dispatch: Dispatch) => {
+export const getTodolistsTC = () => (dispatch: Dispatch<AppActionsType>) => {
     todolistAPI.getTodolist().then(res => {
         const todos = res.data
         dispatch(setTodolistAC(todos))
     })
 }
 
-export const createTodolistTC = (title: string) => (dispatch: Dispatch) => {
+export const createTodolistTC = (title: string) => (dispatch: Dispatch<AppActionsType>) => {
     todolistAPI.createTodolist(title).then(res => {
-        console.log(res.data)
         const newTodos = res.data.data.item
         dispatch(addTodolistAC(newTodos))
     })
 }
 
-export const removeTodolistTC = (todolistId: string) => (dispatch: Dispatch) => {
+export const removeTodolistTC = (todolistId: string) => (dispatch: Dispatch<AppActionsType>) => {
     todolistAPI.deleteTodolist(todolistId).then(() => {
         dispatch(removeTodolistAC(todolistId))
     })
 }
 
-export const updateTitleTodolistTC = (title: string, todolistId: string) => (dispatch: Dispatch) => {
+export const updateTitleTodolistTC = (title: string, todolistId: string) => (dispatch: Dispatch<AppActionsType>) => {
     todolistAPI.updateTodolistTitle(title, todolistId).then(() => {
         dispatch(changeTodolistTitleAC(todolistId, title))
     })
