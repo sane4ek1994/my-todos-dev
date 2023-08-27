@@ -2,7 +2,7 @@ import {
     addTodolistAC,
     changeTodolistFilterAC,
     changeTodolistTitleAC,
-    removeTodolistAC, TFilterTask, TodolistDomainType, todoListID1, todoListID2,
+    removeTodolistAC, setTodolistAC, TFilterTask, TodolistDomainType, todoListID1, todoListID2,
     todolistsReducer
 } from "./todolists-reducer";
 
@@ -44,10 +44,17 @@ test('correct title of todolist should be changed', () => {
     expect(endState[1].title).toBe('Hobby list')
 })
 
+test('should todos be set to state', () => {
+
+    const action = setTodolistAC(startState)
+    const endState: TodolistDomainType[] = todolistsReducer([], action)
+
+    expect(endState.length).toBe(2)
+})
+
 test('correct filter of todolist should be changed', () => {
 
     const newFilter: TFilterTask = 'completed'
-
 
     const endState = todolistsReducer(startState, changeTodolistFilterAC(todoListID1, newFilter))
 
