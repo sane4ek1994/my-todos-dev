@@ -26,17 +26,6 @@ export const CreateTask = () => {
     return <div>{JSON.stringify(state)}</div>
 }
 
-export const UpdateTaskTitle = () => {
-    const [state, setState] = useState<any>(null)
-    useEffect(() => {
-        const newTitleTask = 'PIZZA'
-        const todolistId = '435815be-7a71-43df-a995-036ef1e1ce26'
-        const taskId = '83a2070c-9dd3-4e68-8188-6651ee0fd439'
-        taskAPI.updateTaskTitle(todolistId, taskId, newTitleTask).then(res => setState(res.data))
-    }, [])
-
-    return <div>{JSON.stringify(state)}</div>
-}
 export const DeleteTask = () => {
     const [state, setState] = useState<any>(null)
     useEffect(() => {
