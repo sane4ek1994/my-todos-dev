@@ -59,14 +59,14 @@ export const TodoList = React.memo(({todolist}: TProps) => {
         <div>
             <h2>
                 <EditableSpan title={title} onChangeTitle={updateTodoListTitle}/>
-                <IconButton onClick={handleRemoveTodolist}>
+                <IconButton onClick={handleRemoveTodolist} disabled={todolist.entityStatus === 'loading'}>
                     <DeleteForever/>
                 </IconButton>
             </h2>
 
             <AddItemForm addItem={addNewTask}/>
             <ul ref={parent}>
-                {filterTaskHandler().map(t => <Task key={t.id} todolistId={todolist.id} {...t}/>)}
+                {filterTaskHandler().map(t => <Task key={t.id}  todolistId={todolist.id} {...t}/>)}
             </ul>
             <Button onClick={() => changeFiltered('all')}
                     variant={filter === 'all' ? 'contained' : 'text'}>All</Button>

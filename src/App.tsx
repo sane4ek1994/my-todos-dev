@@ -1,18 +1,19 @@
 import {TodoList} from "./componets/TodoList/TodoList";
 import S from './App.module.css'
 import {AddItemForm} from "./componets/AddItemForm/AddItemForm";
-import {AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from '@mui/material';
+import {AppBar, Button, Container, Grid, IconButton, LinearProgress, Paper, Toolbar, Typography} from '@mui/material';
 import {Menu} from '@mui/icons-material';
 import {useAutoAnimate} from "@formkit/auto-animate/react";
 import {useAppDispatch, useAppSelector} from "./state/store";
 import {createTodolistTC, getTodolistsTC, TodolistDomainType} from "./state/todolists-reducer";
 import {useCallback, useEffect} from "react";
+import {ErrorSnackbar} from "./componets/ErrorSnackbar/ErrorSnackbar";
 
 
 function App() {
 
     const categories = useAppSelector<TodolistDomainType[]>(state => state.todolists)
-
+    const status = useAppSelector(state => state.app.status)
     const dispatch = useAppDispatch()
 
     useEffect(() => {
@@ -27,6 +28,7 @@ function App() {
 
     return (
         <div className={S.App}>
+            <ErrorSnackbar/>
             <AppBar position="static">
                 <Toolbar>
                     <IconButton
@@ -43,6 +45,7 @@ function App() {
                     </Typography>
                     <Button color="inherit">Login</Button>
                 </Toolbar>
+                {status === 'loading' && <LinearProgress/>}
             </AppBar>
             <Container fixed>
                 <Grid container justifyContent="center" style={{padding: '10px', marginBottom: '10px'}}>
