@@ -181,8 +181,6 @@ test('added new tasks', () => {
 
     const endState: TTasksState = tasksReducer(startState, action)
 
-    console.log(endState)
-
     expect(endState[todoListID1].length).toBe(6)
     expect(endState[todoListID1][0].title).toBe(newTasks.title)
     expect(endState[todoListID1][0]).toBeDefined()
