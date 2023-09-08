@@ -15,6 +15,12 @@ export enum TodoTaskPriorities {
     Later = 4
 }
 
+export enum RESULT_CODE {
+    SUCCESS,
+    FAILED,
+    CATCH = 10
+}
+
 export type TaskType = {
     id: string
     title: string
@@ -62,7 +68,7 @@ export const taskAPI = {
     },
 
     updateTask(todolistId: string, taskId: string, model: TaskType) {
-        return instanse.put<TaskResponseType<{item: TaskType}>>(`${todolistId}/tasks/${taskId}`, {model})
+        return instanse.put<TaskResponseType<{ item: TaskType }>>(`${todolistId}/tasks/${taskId}`, model)
     },
 
     deleteTask(todolistId: string, taskId: string) {
