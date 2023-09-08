@@ -1,13 +1,30 @@
-import {appReducer, setAppErrorAC, setAppStatusAC, TAppState} from "./app-reducer";
+import {
+    appReducer,
+    setAppErrorAC,
+    setAppStatusAC,
+    setIsInitializedAC,
+    SetIsInitializedType,
+    TAppState
+} from "./app-reducer";
 
 
 let startState: TAppState
 
 beforeEach(() => {
     startState = {
+        isInitialized: false,
         status: "idle",
         error: null
     }
+})
+
+
+test('setting initialized app', () => {
+
+    const endState = appReducer(startState, setIsInitializedAC(true))
+
+    expect(endState.isInitialized).toBeTruthy()
+
 })
 
 test('changed app status', () => {

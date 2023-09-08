@@ -1,30 +1,45 @@
-import {TodoList} from "./componets/TodoList/TodoList";
 import S from './App.module.css'
-import {AddItemForm} from "./componets/AddItemForm/AddItemForm";
-import {AppBar, Button, Container, Grid, IconButton, LinearProgress, Paper, Toolbar, Typography} from '@mui/material';
+import {
+    AppBar,
+    Button,
+    CircularProgress,
+    Container,
+    IconButton,
+    LinearProgress,
+    Toolbar,
+    Typography
+} from '@mui/material';
 import {Menu} from '@mui/icons-material';
-import {useAutoAnimate} from "@formkit/auto-animate/react";
 import {useAppDispatch, useAppSelector} from "./state/store";
-import {createTodolistTC, getTodolistsTC, TodolistDomainType} from "./state/todolists-reducer";
-import {useCallback, useEffect} from "react";
+import React, {useEffect} from "react";
 import {ErrorSnackbar} from "./componets/ErrorSnackbar/ErrorSnackbar";
+import {Navigate, Route, Routes} from "react-router-dom";
+import {Login} from "./componets/Login/Login";
+import {TodosListLists} from "./componets/TodolistList/TodolistsList";
+import {logoutTC, meTC} from "./state/auth-reducer";
 
 
 function App() {
-
-    const categories = useAppSelector<TodolistDomainType[]>(state => state.todolists)
+    const isLoggedIn = useAppSelector<boolean>(state => state.auth.isLoggedIn)
+    const isInitialized = useAppSelector<boolean>(state => state.app.isInitialized)
     const status = useAppSelector(state => state.app.status)
     const dispatch = useAppDispatch()
 
+    const logoutHandler = () => {
+        dispatch(logoutTC())
+    }
+
     useEffect(() => {
-        dispatch(getTodolistsTC())
+        dispatch(meTC())
     }, [dispatch])
 
-    const [parent] = useAutoAnimate()
 
-    const addTodoList = useCallback((title: string) => {
-        dispatch(createTodolistTC(title))
-    }, [dispatch])
+    if (!isInitialized) {
+        return <div
+            style={{position: 'fixed', top: '30%', textAlign: 'center', width: '100%'}}>
+            <CircularProgress/>
+        </div>
+    }
 
     return (
         <div className={S.App}>
@@ -43,23 +58,18 @@ function App() {
                     <Typography variant="h6" component="div" sx={{flexGrow: 1}}>
                         Todo-list
                     </Typography>
-                    <Button color="inherit">Login</Button>
+                    {isLoggedIn && <Button color="inherit" onClick={logoutHandler}>Logout</Button>}
                 </Toolbar>
                 {status === 'loading' && <LinearProgress/>}
             </AppBar>
             <Container fixed>
-                <Grid container justifyContent="center" style={{padding: '10px', marginBottom: '10px'}}>
-                    <AddItemForm addItem={addTodoList}/>
-                </Grid>
-                <Grid container spacing={3} ref={parent} justifyContent="center">
-                    {categories?.map(tl => {
-                        return <Grid item key={tl.id}>
-                            <Paper elevation={3} style={{padding: '10px'}}>
-                                <TodoList todolist={tl}/>
-                            </Paper>
-                        </Grid>
-                    })}
-                </Grid>
+                <Routes>
+                    <Route path={'/'} element={<TodosListLists/>}/>
+                    <Route path={'/login'} element={<Login/>}/>
+                    <Route path={'*'} element={<Navigate to={'/404'}/>}/>
+                    <Route path={'/404'} element={<h1>404: Page not found...</h1>}/>
+                </Routes>
+
             </Container>
         </div>
     );
