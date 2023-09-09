@@ -9,7 +9,7 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import {useFormik} from "formik";
 import * as Yup from 'yup';
-import {loginTC, setIsLoggedInAC} from "../../state/auth-reducer";
+import {loginTC} from "../../state/auth-reducer";
 import {useAppDispatch, useAppSelector} from "../../state/store";
 import {Navigate} from "react-router-dom";
 
@@ -43,7 +43,7 @@ export const Login = () => {
                     <FormLabel>
                         <p>To log in get registered
                             <a href={'https://social-network.samuraijs.com/'}
-                               target={'_blank'}> here
+                               target={'_blank'} rel="noreferrer"> here
                             </a>
                         </p>
                         <p>or use common test account credentials:</p>

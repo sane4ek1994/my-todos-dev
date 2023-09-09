@@ -1,5 +1,3 @@
-import {boolean} from "yup";
-
 export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
 
 export type TAppState = {
