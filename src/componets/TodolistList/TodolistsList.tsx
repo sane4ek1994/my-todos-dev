@@ -18,10 +18,11 @@ export const TodosListLists = () => {
         dispatch(createTodolistTC(title))
     }, [dispatch])
 
+
     useEffect(() => {
         if (!isLoggedIn) return
         dispatch(getTodolistsTC())
-    }, [dispatch, isLoggedIn])
+    }, [dispatch])
 
     if (!isLoggedIn) {
         return <Navigate to={'/login'}/>
