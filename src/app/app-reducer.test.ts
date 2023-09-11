@@ -3,7 +3,6 @@ import {
     setAppErrorAC,
     setAppStatusAC,
     setIsInitializedAC,
-    SetIsInitializedType,
     TAppState
 } from "./app-reducer";
 
