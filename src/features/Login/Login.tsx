@@ -9,7 +9,7 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import {useFormik} from "formik";
 import * as Yup from 'yup';
-import {loginTC} from "../../state/auth-reducer";
+import {loginTC} from "./auth-reducer";
 import {useAppDispatch, useAppSelector} from "../../state/store";
 import {Navigate} from "react-router-dom";
 

@@ -11,7 +11,7 @@ import {
     todoListID2,
     todolistsReducer
 } from "./todolists-reducer";
-import {RequestStatusType} from "./app-reducer";
+import {RequestStatusType} from "../../app/app-reducer";
 
 let startState: TodolistDomainType[]
 

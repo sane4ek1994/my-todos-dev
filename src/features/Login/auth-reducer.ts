@@ -5,10 +5,10 @@ import {
     SetAppStatusActionType,
     setIsInitializedAC,
     SetIsInitializedType
-} from './app-reducer'
-import {authAPI, LoginDataType} from "../api/todolist-api";
-import {RESULT_CODE} from "../api/task-api";
-import {handleServerAppError, handleServerNetworkError} from "../utils/error-utils";
+} from '../../app/app-reducer'
+import {authAPI, LoginDataType} from "../../api/todolist-api";
+import {RESULT_CODE} from "../../api/task-api";
+import {handleServerAppError, handleServerNetworkError} from "../../utils/error-utils";
 
 const initialState = {
     isLoggedIn: false

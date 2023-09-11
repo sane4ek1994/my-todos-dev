@@ -1,11 +1,11 @@
 import {useAppDispatch, useAppSelector} from "../../state/store";
-import {createTodolistTC, getTodolistsTC, TodolistDomainType} from "../../state/todolists-reducer";
+import {createTodolistTC, getTodolistsTC, TodolistDomainType} from "./todolists-reducer";
 import {useAutoAnimate} from "@formkit/auto-animate/react";
 import React, {useCallback, useEffect} from "react";
 import {Navigate} from "react-router-dom";
 import {Grid, Paper} from "@mui/material";
-import {AddItemForm} from "../AddItemForm/AddItemForm";
-import {TodoList} from "../TodoList/TodoList";
+import {AddItemForm} from "../../componets/AddItemForm/AddItemForm";
+import {TodoList} from "./Todolist/TodoList";
 
 export const TodosListLists = () => {
     const isLoggedIn = useAppSelector<boolean>(state => state.auth.isLoggedIn)
@@ -22,7 +22,7 @@ export const TodosListLists = () => {
     useEffect(() => {
         if (!isLoggedIn) return
         dispatch(getTodolistsTC())
-    }, [dispatch])
+    }, [dispatch, isLoggedIn])
 
     if (!isLoggedIn) {
         return <Navigate to={'/login'}/>

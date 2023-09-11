@@ -15,7 +15,7 @@ import {
     todoListID2,
     TRemoveTodolist
 } from "./todolists-reducer";
-import {TaskStatuses, TodoTaskPriorities} from "../api/task-api";
+import {TaskStatuses, TodoTaskPriorities} from "../../api/task-api";
 import {v1} from "uuid";
 
 let startState: TTasksState

@@ -1,9 +1,9 @@
 import {setTodolistEntityStatusAC, TAddTodolist, TRemoveTodolist, TSetTodolist} from './todolists-reducer'
-import {RESULT_CODE, taskAPI, TaskStatuses, TaskType} from "../api/task-api";
+import {RESULT_CODE, taskAPI, TaskStatuses, TaskType} from "../../api/task-api";
 import {Dispatch} from "redux";
-import {AppActionsType, TAppRootState} from "./store";
-import { SetAppErrorActionType, setAppStatusAC} from "./app-reducer";
-import {handleServerAppError, handleServerNetworkError} from "../utils/error-utils";
+import {AppActionsType, TAppRootState} from "../../state/store";
+import { SetAppErrorActionType, setAppStatusAC} from "../../app/app-reducer";
+import {handleServerAppError, handleServerNetworkError} from "../../utils/error-utils";
 
 type TRemoveTask = ReturnType<typeof removeTasksAC>
 type TAddTask = ReturnType<typeof addTaskAC>
