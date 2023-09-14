@@ -1,10 +1,10 @@
 import {v1} from "uuid";
-import {todolistAPI, TodolistsType} from "../api/todolist-api";
+import {todolistAPI, TodolistsType} from "../../api/todolist-api";
 import {Dispatch} from "redux";
-import {AppActionsType} from "./store";
-import {RequestStatusType, setAppStatusAC, SetAppStatusActionType} from "./app-reducer";
-import {RESULT_CODE} from "../api/task-api";
-import {handleServerAppError, handleServerNetworkError} from "../utils/error-utils";
+import {AppActionsType} from "../../state/store";
+import {RequestStatusType, setAppStatusAC, SetAppStatusActionType} from "../../app/app-reducer";
+import {RESULT_CODE} from "../../api/task-api";
+import {handleServerAppError, handleServerNetworkError} from "../../utils/error-utils";
 
 export type TRemoveTodolist = ReturnType<typeof removeTodolistAC>
 export type TAddTodolist = ReturnType<typeof addTodolistAC>

@@ -1,18 +1,18 @@
 import React, {useCallback, useEffect} from 'react';
 import {useAutoAnimate} from '@formkit/auto-animate/react'
-import {AddItemForm} from "../AddItemForm/AddItemForm";
-import {EditableSpan} from "../EditableSpan/EditableSpan";
+import {AddItemForm} from "../../../componets/AddItemForm/AddItemForm";
+import {EditableSpan} from "../../../componets/EditableSpan/EditableSpan";
 import {Button, IconButton} from "@mui/material";
 import {DeleteForever} from '@mui/icons-material';
-import {useAppDispatch, useAppSelector} from "../../state/store";
-import {addTaskTC, setTaskTC,} from "../../state/tasks-reducer";
+import {useAppDispatch, useAppSelector} from "../../../state/store";
+import {addTaskTC, setTaskTC,} from "../tasks-reducer";
 import {
     changeTodolistFilterAC,
     removeTodolistTC,
     TFilterTask, TodolistDomainType, updateTitleTodolistTC
-} from "../../state/todolists-reducer";
-import {Task} from "../Task/Task";
-import {TaskStatuses, TaskType} from "../../api/task-api";
+} from "../todolists-reducer";
+import {TaskStatuses, TaskType} from "../../../api/task-api";
+import {Task} from "./Task/Task";
 
 
 type TProps = {
@@ -66,7 +66,7 @@ export const TodoList = React.memo(({todolist}: TProps) => {
 
             <AddItemForm addItem={addNewTask}/>
             <ul ref={parent}>
-                {filterTaskHandler().map(t => <Task key={t.id}  todolistId={todolist.id} {...t}/>)}
+                {filterTaskHandler().map(t => <Task key={t.id} todolistId={todolist.id} {...t}/>)}
             </ul>
             <Button onClick={() => changeFiltered('all')}
                     variant={filter === 'all' ? 'contained' : 'text'}>All</Button>
