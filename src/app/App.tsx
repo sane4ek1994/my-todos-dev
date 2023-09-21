@@ -10,13 +10,13 @@ import {
     Typography
 } from '@mui/material';
 import {Menu} from '@mui/icons-material';
-import {useAppDispatch, useAppSelector} from "../state/store";
+import {useAppDispatch, useAppSelector} from "state/store";
 import React, {useEffect} from "react";
-import {ErrorSnackbar} from "../componets/ErrorSnackbar/ErrorSnackbar";
+import {ErrorSnackbar} from "componets/ErrorSnackbar/ErrorSnackbar";
 import {Navigate, Route, Routes} from "react-router-dom";
-import {Login} from "../features/Login/Login";
-import {TodosListLists} from "../features/TodolistList/TodolistsList";
-import {logoutTC, meTC} from "../features/Login/auth-reducer";
+import {Login} from "features/Login/Login";
+import {TodosListLists} from "features/TodolistList/TodolistsList";
+import {logoutTC, meTC} from "features/Login/auth-reducer";
 
 
 function App() {
