@@ -1,21 +1,14 @@
 import {
-    addTaskAC,
-    changeTaskIsDoneAC,
-    changeTaskTitleAC,
-    removeTasksAC, setTasksAC,
+    tasksActions,
     tasksReducer,
     TTasksState,
 } from "./tasks-reducer";
 
 import {
-    addTodolistAC,
-    removeTodolistAC, setTodolistAC,
-    TAddTodolist,
     todoListID1,
-    todoListID2,
-    TRemoveTodolist
+    todoListID2, todolistsActions,
 } from "./todolists-reducer";
-import {TaskStatuses, TodoTaskPriorities} from "../../api/task-api";
+import {TaskStatuses, TodoTaskPriorities} from "api/task-api";
 import {v1} from "uuid";
 
 let startState: TTasksState
@@ -151,17 +144,17 @@ beforeEach(() => {
 
 test('remove task', () => {
 
-    const action = removeTasksAC(todoListID1, '3')
+    const action = tasksActions.removeTask({todolistId: todoListID1, taskId: '3'})
 
     const endState: TTasksState = tasksReducer(startState, action)
 
+    console.log(endState[todoListID1].length)
     expect(endState[todoListID1].length).toBe(4)
     expect(endState[todoListID2].length).toBe(5)
 
 })
 
 
-//Подчини тест ⚒️🔴
 test('added new tasks', () => {
 
     const newTasks = {
@@ -177,7 +170,7 @@ test('added new tasks', () => {
         priority: TodoTaskPriorities.Low
     }
 
-    const action = addTaskAC(newTasks)
+    const action = tasksActions.addTask({task: newTasks})
 
     const endState: TTasksState = tasksReducer(startState, action)
 
@@ -192,7 +185,7 @@ test('change task title', () => {
 
     const newTitleTasks = 'Create reducers!!'
 
-    const action = changeTaskTitleAC(todoListID2, '1', newTitleTasks)
+    const action = tasksActions.updateTask({todolistId: todoListID2, taskId: '1', model: {title: newTitleTasks}})
 
     const endState: TTasksState = tasksReducer(startState, action)
 
@@ -207,7 +200,7 @@ test('change task title', () => {
 test('change task isDone', () => {
 
 
-    const action = changeTaskIsDoneAC(todoListID2, '1', TaskStatuses.New)
+    const action = tasksActions.updateTask({todolistId: todoListID2, taskId: '1', model: {status: TaskStatuses.New}})
 
     const endState: TTasksState = tasksReducer(startState, action)
 
@@ -216,11 +209,18 @@ test('change task isDone', () => {
 
 })
 
+const todos = [
+    {id: todoListID1, title: 'Todo list', addedDate: '', order: 0},
+    {id: todoListID2, title: 'Todo list_1', addedDate: '', order: 0}
+]
+
+const action = todolistsActions.setTodolists({todos})
+
 test('new property array should be added when new todolist is added', () => {
 
     const todos = {id: v1(), title: 'Todo list', filter: 'all', addedDate: '', order: 0}
 
-    const action: TAddTodolist = addTodolistAC(todos)
+    const action = todolistsActions.addTodolist({todolist: todos})
 
     const endState: TTasksState = tasksReducer(startState, action)
 
@@ -233,12 +233,7 @@ test('new property array should be added when new todolist is added', () => {
     expect(keys.length).toBe(3)
     expect(endState[newKey]).toEqual([])
 })
-
 test('empty array should be added when set todolist', () => {
-    const action = setTodolistAC([
-        {id: todoListID1, title: 'Todo list', addedDate: '', order: 0},
-        {id: todoListID2, title: 'Todo list_1', addedDate: '', order: 0}
-    ])
 
     const endState = tasksReducer({}, action)
 
@@ -251,7 +246,7 @@ test('empty array should be added when set todolist', () => {
 
 test('property array should be added when new todolist is removed', () => {
 
-    const action: TRemoveTodolist = removeTodolistAC(todoListID2)
+    const action = todolistsActions.removeTodolist({id: todoListID2})
     const endState: TTasksState = tasksReducer(startState, action)
 
     const keys = Object.keys(endState)
@@ -263,7 +258,7 @@ test('property array should be added when new todolist is removed', () => {
 
 test('task should be added for todos', () => {
 
-    const action = setTasksAC(startState[todoListID1], todoListID1)
+    const action = tasksActions.setTask({tasks: startState[todoListID1], todolistId: todoListID1})
 
     const endState = tasksReducer({
         todoListID1: [],

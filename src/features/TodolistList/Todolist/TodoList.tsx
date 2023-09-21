@@ -1,17 +1,16 @@
 import React, {useCallback, useEffect} from 'react';
 import {useAutoAnimate} from '@formkit/auto-animate/react'
-import {AddItemForm} from "../../../componets/AddItemForm/AddItemForm";
-import {EditableSpan} from "../../../componets/EditableSpan/EditableSpan";
+import {AddItemForm} from "componets/AddItemForm/AddItemForm";
+import {EditableSpan} from "componets/EditableSpan/EditableSpan";
 import {Button, IconButton} from "@mui/material";
 import {DeleteForever} from '@mui/icons-material';
-import {useAppDispatch, useAppSelector} from "../../../state/store";
+import {useAppDispatch, useAppSelector} from "state/store";
 import {addTaskTC, setTaskTC,} from "../tasks-reducer";
 import {
-    changeTodolistFilterAC,
     removeTodolistTC,
-    TFilterTask, TodolistDomainType, updateTitleTodolistTC
+    TFilterTask, TodolistDomainType, todolistsActions, updateTitleTodolistTC
 } from "../todolists-reducer";
-import {TaskStatuses, TaskType} from "../../../api/task-api";
+import {TaskStatuses, TaskType} from "api/task-api";
 import {Task} from "./Task/Task";
 
 
@@ -24,7 +23,6 @@ export const TodoList = React.memo(({todolist}: TProps) => {
     // const todolist = useSelector<TAppRootState, TTodoList>(state => state.todolists.filter(todo => todo.id === categoryId)[0])
 
     const tasks = useAppSelector<TaskType[]>(state => state.tasks[todolist.id])
-
     const {title, filter} = todolist
 
     const dispatch = useAppDispatch()
@@ -39,7 +37,10 @@ export const TodoList = React.memo(({todolist}: TProps) => {
     const updateTodoListTitle = useCallback((newTitle: string) => dispatch(updateTitleTodolistTC(newTitle, todolist.id)), [todolist.id, dispatch])
 
     const addNewTask = useCallback((title: string) => dispatch(addTaskTC(todolist.id, title)), [todolist.id, dispatch])
-    const changeFiltered = (valueFilter: TFilterTask) => dispatch(changeTodolistFilterAC(todolist.id, valueFilter))
+    const changeFiltered = (valueFilter: TFilterTask) => dispatch(todolistsActions.changeTodolistFilter({
+        id: todolist.id,
+        filter: valueFilter
+    }))
     const handleRemoveTodolist = () => dispatch(removeTodolistTC(todolist.id))
 
 

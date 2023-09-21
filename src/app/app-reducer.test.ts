@@ -1,8 +1,6 @@
 import {
+    appActions,
     appReducer,
-    setAppErrorAC,
-    setAppStatusAC,
-    setIsInitializedAC,
     TAppState
 } from "./app-reducer";
 
@@ -20,7 +18,7 @@ beforeEach(() => {
 
 test('setting initialized app', () => {
 
-    const endState = appReducer(startState, setIsInitializedAC(true))
+    const endState = appReducer(startState, appActions.setIsInitialized({isInitialized: true}))
 
     expect(endState.isInitialized).toBeTruthy()
 
@@ -29,7 +27,7 @@ test('setting initialized app', () => {
 test('changed app status', () => {
     const newStatus = 'succeeded'
 
-    const endState = appReducer(startState, setAppStatusAC(newStatus))
+    const endState = appReducer(startState, appActions.setAppStatus({status: newStatus}))
 
     expect(endState.status).toBe(newStatus)
 
@@ -38,7 +36,7 @@ test('changed app status', () => {
 test('setting app error', () => {
     const error = 'Error network!'
 
-    const endState = appReducer(startState, setAppErrorAC(error))
+    const endState = appReducer(startState, appActions.setAppError({error}))
 
     expect(endState.error).toBe(error)
     expect(endState.error).not.toBe(null)

@@ -1,4 +1,4 @@
-import {authReducer, setIsLoggedInAC} from "./auth-reducer";
+import {authActions, authReducer} from "./auth-reducer";
 
 type TAuthState = {
     isLoggedIn: boolean
@@ -14,7 +14,7 @@ beforeEach(() => {
 
 test('toggle is isLoggedIn', () => {
 
-    const endState = authReducer(startState, setIsLoggedInAC(true))
+    const endState = authReducer(startState, authActions.setIsLoggedIn({isLoggedIn: true}))
 
     expect(endState.isLoggedIn).toBeTruthy()
 })

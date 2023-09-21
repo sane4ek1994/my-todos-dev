@@ -1,10 +1,10 @@
-import {useAppDispatch, useAppSelector} from "../../state/store";
+import {useAppDispatch, useAppSelector} from "state/store";
 import {createTodolistTC, getTodolistsTC, TodolistDomainType} from "./todolists-reducer";
 import {useAutoAnimate} from "@formkit/auto-animate/react";
 import React, {useCallback, useEffect} from "react";
 import {Navigate} from "react-router-dom";
 import {Grid, Paper} from "@mui/material";
-import {AddItemForm} from "../../componets/AddItemForm/AddItemForm";
+import {AddItemForm} from "componets/AddItemForm/AddItemForm";
 import {TodoList} from "./Todolist/TodoList";
 
 export const TodosListLists = () => {

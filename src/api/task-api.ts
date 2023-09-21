@@ -1,4 +1,5 @@
 import axios from "axios";
+import {UpdateTaskModelType} from "api/todolist-api";
 
 export enum TaskStatuses {
     New = 0,
@@ -67,7 +68,7 @@ export const taskAPI = {
         return instanse.post<TaskResponseType<CreateTaskResponseType>>(`${todolistId}/tasks`, {title})
     },
 
-    updateTask(todolistId: string, taskId: string, model: TaskType) {
+    updateTask(todolistId: string, taskId: string, model: UpdateTaskModelType) {
         return instanse.put<TaskResponseType<{ item: TaskType }>>(`${todolistId}/tasks/${taskId}`, model)
     },
 

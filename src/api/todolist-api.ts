@@ -1,29 +1,5 @@
 import axios, {AxiosResponse} from "axios";
-
-export type ResponseType<D = {}> = {
-    resultCode: number
-    messages: Array<string>
-    fieldsErrors: Array<string>
-    data: D
-}
-
-
-export type TodolistsType = {
-    id: string
-    addedDate: string
-    order: number
-    title: string
-}
-
-type CreateResponseItemType = {
-    item: TodolistsType
-}
-
-export type LoginDataType = {
-    email?: string
-    password?: string
-    rememberMe?: boolean
-}
+import {TaskStatuses, TodoTaskPriorities} from "api/task-api";
 
 
 const instanse = axios.create({
@@ -63,4 +39,40 @@ export const todolistAPI = {
         return instanse.delete<ResponseType>(`/todo-lists/${todolistId}`)
     }
 
+}
+
+
+export type ResponseType<D = {}> = {
+    resultCode: number
+    messages: Array<string>
+    fieldsErrors: Array<string>
+    data: D
+}
+
+
+export type TodolistsType = {
+    id: string
+    addedDate: string
+    order: number
+    title: string
+}
+
+type CreateResponseItemType = {
+    item: TodolistsType
+}
+
+export type LoginDataType = {
+    email?: string
+    password?: string
+    rememberMe?: boolean
+}
+
+
+export type UpdateTaskModelType = {
+    title: string
+    description: string
+    status: TaskStatuses
+    priority: TodoTaskPriorities
+    startDate: string
+    deadline: string
 }
