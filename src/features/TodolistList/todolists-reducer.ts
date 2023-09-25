@@ -1,5 +1,4 @@
 import { v1 } from "uuid";
-import { AppThunk } from "app/store";
 import { appActions, RequestStatusType } from "app/app-reducer";
 import { handleServerNetworkError } from "common/utils/handleServerNetworkError";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
