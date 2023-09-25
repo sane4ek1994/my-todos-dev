@@ -1,14 +1,10 @@
-import {
-  tasksActions,
-  tasksReducer,
-  tasksThunks,
-  TTasksState,
-} from "./tasks-reducer";
+import { tasksReducer, tasksThunks, TTasksState } from "./tasks-reducer";
 
 import {
   todoListID1,
   todoListID2,
   todolistsActions,
+  todolistsThunks,
 } from "./todolists-reducer";
 import { v1 } from "uuid";
 import { TaskStatuses, TodoTaskPriorities } from "common/enums/enums";
@@ -236,7 +232,7 @@ const todos = [
   { id: todoListID2, title: "Todo list_1", addedDate: "", order: 0 },
 ];
 
-const action = todolistsActions.setTodolists({ todos });
+const action = todolistsThunks.fetchTodolists.fulfilled({ todos }, "requestId");
 
 test("new property array should be added when new todolist is added", () => {
   const todos = {
@@ -247,7 +243,11 @@ test("new property array should be added when new todolist is added", () => {
     order: 0,
   };
 
-  const action = todolistsActions.addTodolist({ todolist: todos });
+  const action = todolistsThunks.createTodolist.fulfilled(
+    { todo: todos },
+    "requestId",
+    { title: "Todo list" }
+  );
 
   const endState: TTasksState = tasksReducer(startState, action);
 
@@ -271,7 +271,11 @@ test("empty array should be added when set todolist", () => {
 });
 
 test("property array should be added when new todolist is removed", () => {
-  const action = todolistsActions.removeTodolist({ id: todoListID2 });
+  const action = todolistsThunks.removeTodolist.fulfilled(
+    { todolistId: todoListID2 },
+    "requestId",
+    { todolistId: todoListID2 }
+  );
   const endState: TTasksState = tasksReducer(startState, action);
 
   const keys = Object.keys(endState);

@@ -7,11 +7,10 @@ import { DeleteForever } from "@mui/icons-material";
 import { useAppDispatch, useAppSelector } from "app/store";
 import { tasksThunks } from "../tasks-reducer";
 import {
-  removeTodolistTC,
   TFilterTask,
   TodolistDomainType,
   todolistsActions,
-  updateTitleTodolistTC,
+  todolistsThunks,
 } from "../todolists-reducer";
 import { TaskType } from "common/types/types";
 import { Task } from "./Task/Task";
@@ -38,7 +37,12 @@ export const TodoList = React.memo(({ todolist }: TProps) => {
 
   const updateTodoListTitle = useCallback(
     (newTitle: string) =>
-      dispatch(updateTitleTodolistTC(newTitle, todolist.id)),
+      dispatch(
+        todolistsThunks.updateTitleTodolist({
+          title: newTitle,
+          todolistId: todolist.id,
+        })
+      ),
     [todolist.id, dispatch]
   );
 
@@ -54,7 +58,8 @@ export const TodoList = React.memo(({ todolist }: TProps) => {
         filter: valueFilter,
       })
     );
-  const handleRemoveTodolist = () => dispatch(removeTodolistTC(todolist.id));
+  const handleRemoveTodolist = () =>
+    dispatch(todolistsThunks.removeTodolist({ todolistId: todolist.id }));
   const filterTaskHandler = () => {
     let filteredTask = tasks;
     switch (filter) {
