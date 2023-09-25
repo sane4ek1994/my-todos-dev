@@ -1,11 +1,13 @@
-import {AppThunk, TAppRootState} from "state/store";
-import {handleServerAppError, handleServerNetworkError} from "utils/error-utils";
+import {AppThunk, TAppRootState} from "app/store";
+import { handleServerNetworkError} from "common/utils/handleServerNetworkError";
 import {appActions} from "app/app-reducer";
 import {createSlice, current, PayloadAction} from "@reduxjs/toolkit";
 import {todolistsActions} from "features/TodolistList/todolists-reducer";
-import {UpdateTaskModelType} from "api/todolist-api";
 import {clearTasksAndTodolists} from "common/common-action";
-import {RESULT_CODE, taskAPI, TaskStatuses, TaskType, TodoTaskPriorities} from "api/task-api";
+import {TaskType, UpdateTaskModelType} from "common/types/types";
+import {handleServerAppError} from "common/utils/handleServerAppError";
+import { taskAPI } from "./task-api";
+import {RESULT_CODE, TaskStatuses, TodoTaskPriorities} from "common/enums/enums";
 
 
 export type TTasksState = {
@@ -26,7 +28,6 @@ const slice = createSlice({
         },
         addTask: (state, action: PayloadAction<{ task: TaskType }>) => {
             const task = state[action.payload.task.todoListId]
-            console.log(task)
             task.unshift(action.payload.task)
         },
         updateTask: (state, action: PayloadAction<{

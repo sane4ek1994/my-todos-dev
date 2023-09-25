@@ -1,17 +1,18 @@
 import React, {useCallback, useEffect} from 'react';
 import {useAutoAnimate} from '@formkit/auto-animate/react'
-import {AddItemForm} from "componets/AddItemForm/AddItemForm";
-import {EditableSpan} from "componets/EditableSpan/EditableSpan";
+import {AddItemForm} from "common/componets/AddItemForm/AddItemForm";
+import {EditableSpan} from "common/componets/EditableSpan/EditableSpan";
 import {Button, IconButton} from "@mui/material";
 import {DeleteForever} from '@mui/icons-material';
-import {useAppDispatch, useAppSelector} from "state/store";
+import {useAppDispatch, useAppSelector} from "app/store";
 import {addTaskTC, setTaskTC,} from "../tasks-reducer";
 import {
     removeTodolistTC,
     TFilterTask, TodolistDomainType, todolistsActions, updateTitleTodolistTC
 } from "../todolists-reducer";
-import {TaskStatuses, TaskType} from "api/task-api";
+import { TaskType} from "common/types/types";
 import {Task} from "./Task/Task";
+import {TaskStatuses} from "common/enums/enums";
 
 
 type TProps = {

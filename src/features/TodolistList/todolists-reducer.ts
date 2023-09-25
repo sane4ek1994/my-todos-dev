@@ -1,10 +1,12 @@
 import {v1} from "uuid";
-import {todolistAPI, TodolistsType} from "api/todolist-api";
-import {AppThunk} from "state/store";
+import {AppThunk} from "app/store";
 import {appActions, RequestStatusType} from "app/app-reducer";
-import {RESULT_CODE} from "api/task-api";
-import {handleServerAppError, handleServerNetworkError} from "utils/error-utils";
+import {handleServerNetworkError} from "common/utils/handleServerNetworkError";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {handleServerAppError} from "common/utils/handleServerAppError";
+import {todolistAPI} from "features/TodolistList/todolists-api";
+import {RESULT_CODE} from "common/enums/enums";
+import {TodolistsType} from "common/types/types";
 
 
 export const todoListID1 = v1()

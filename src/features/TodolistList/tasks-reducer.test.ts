@@ -8,8 +8,8 @@ import {
     todoListID1,
     todoListID2, todolistsActions,
 } from "./todolists-reducer";
-import {TaskStatuses, TodoTaskPriorities} from "api/task-api";
 import {v1} from "uuid";
+import {TaskStatuses, TodoTaskPriorities} from "common/enums/enums";
 
 let startState: TTasksState
 
@@ -148,7 +148,7 @@ test('remove task', () => {
 
     const endState: TTasksState = tasksReducer(startState, action)
 
-    console.log(endState[todoListID1].length)
+
     expect(endState[todoListID1].length).toBe(4)
     expect(endState[todoListID2].length).toBe(5)
 

@@ -21,8 +21,8 @@ export const store = configureStore({
 })
 
 export type TAppRootState = ReturnType<typeof store.getState>
-export type ThunkType = ThunkDispatch<TAppRootState, unknown, AnyAction>
+export type AppDispatch = ThunkDispatch<TAppRootState, unknown, AnyAction>
 
 export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, TAppRootState, unknown, AnyAction>
-export const useAppDispatch = useDispatch<ThunkType>
+export const useAppDispatch = useDispatch<AppDispatch>
 export const useAppSelector: TypedUseSelectorHook<TAppRootState> = useSelector

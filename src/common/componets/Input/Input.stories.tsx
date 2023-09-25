@@ -1,4 +1,4 @@
-import Input from './Input'
+import Input from 'common/componets/Input/Input'
 import {action} from "@storybook/addon-actions";
 
 

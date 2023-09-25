@@ -1,4 +1,4 @@
-import Button from './Button'
+import Button from 'common/componets/Button/Button'
 import {action} from "@storybook/addon-actions";
 
 
