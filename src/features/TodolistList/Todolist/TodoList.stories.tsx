@@ -1,6 +1,6 @@
 import type {Meta, StoryObj} from '@storybook/react';
 import {TodoList} from "./TodoList";
-import {ReduxStoreProviderDecorator} from "../../../stories/ReduxStoreProviderDecorator";
+import {ReduxStoreProviderDecorator} from "stories/ReduxStoreProviderDecorator";
 import {useSelector} from "react-redux";
 import {TAppRootState} from "app/store";
 import {TodolistDomainType} from "../todolists-reducer";
