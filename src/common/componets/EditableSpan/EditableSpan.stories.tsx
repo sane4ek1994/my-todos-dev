@@ -1,4 +1,4 @@
-import {EditableSpan} from "./EditableSpan";
+import {EditableSpan} from "common/componets/EditableSpan/EditableSpan";
 import {action} from '@storybook/addon-actions'
 
 export default {
