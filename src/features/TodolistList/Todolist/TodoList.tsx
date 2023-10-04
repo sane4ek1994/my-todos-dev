@@ -4,7 +4,7 @@ import { AddItemForm } from "common/componets/AddItemForm/AddItemForm";
 import { EditableSpan } from "common/componets/EditableSpan/EditableSpan";
 import { Button, IconButton } from "@mui/material";
 import { DeleteForever } from "@mui/icons-material";
-import { useAppDispatch, useAppSelector } from "app/store";
+import { useAppSelector } from "app/store";
 import { tasksThunks } from "../tasks-reducer";
 import {
   TFilterTask,
@@ -15,6 +15,8 @@ import {
 import { TaskType } from "common/types/types";
 import { Task } from "./Task/Task";
 import { TaskStatuses } from "common/enums/enums";
+import { useActions } from "common/hooks/useAction";
+import { useAppDispatch } from "common/hooks/useAppDispatch";
 
 type TProps = {
   todolist: TodolistDomainType;
@@ -29,27 +31,27 @@ export const TodoList = React.memo(({ todolist }: TProps) => {
 
   const dispatch = useAppDispatch();
 
+  const { fetchTask, addTask } = useActions(tasksThunks);
+  const { updateTitleTodolist, removeTodolist } = useActions(todolistsThunks);
+
   const [parent] = useAutoAnimate();
 
   useEffect(() => {
-    dispatch(tasksThunks.fetchTask(todolist.id));
-  }, [dispatch, todolist.id]);
+    fetchTask(todolist.id);
+  }, [todolist.id, fetchTask]);
 
   const updateTodoListTitle = useCallback(
     (newTitle: string) =>
-      dispatch(
-        todolistsThunks.updateTitleTodolist({
-          title: newTitle,
-          todolistId: todolist.id,
-        })
-      ),
-    [todolist.id, dispatch]
+      updateTitleTodolist({
+        title: newTitle,
+        todolistId: todolist.id,
+      }),
+    [todolist.id, updateTitleTodolist]
   );
 
   const addNewTask = useCallback(
-    (title: string) =>
-      dispatch(tasksThunks.addTask({ todolistId: todolist.id, title })),
-    [todolist.id, dispatch]
+    (title: string) => addTask({ todolistId: todolist.id, title }),
+    [todolist.id, addTask]
   );
   const changeFiltered = (valueFilter: TFilterTask) =>
     dispatch(
@@ -59,7 +61,7 @@ export const TodoList = React.memo(({ todolist }: TProps) => {
       })
     );
   const handleRemoveTodolist = () =>
-    dispatch(todolistsThunks.removeTodolist({ todolistId: todolist.id }));
+    removeTodolist({ todolistId: todolist.id });
   const filterTaskHandler = () => {
     let filteredTask = tasks;
     switch (filter) {

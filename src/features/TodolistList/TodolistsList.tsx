@@ -1,4 +1,4 @@
-import { useAppDispatch, useAppSelector } from "app/store";
+import { useAppSelector } from "app/store";
 import { TodolistDomainType, todolistsThunks } from "./todolists-reducer";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import React, { useCallback, useEffect } from "react";
@@ -6,6 +6,7 @@ import { Navigate } from "react-router-dom";
 import { Grid, Paper } from "@mui/material";
 import { AddItemForm } from "common/componets/AddItemForm/AddItemForm";
 import { TodoList } from "./Todolist/TodoList";
+import { useAppDispatch } from "common/hooks/useAppDispatch";
 
 export const TodosListLists = () => {
   const isLoggedIn = useAppSelector<boolean>((state) => state.auth.isLoggedIn);
