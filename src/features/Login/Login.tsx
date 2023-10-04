@@ -35,11 +35,10 @@ export const Login = () => {
         //Валидация через createAsyncThunk т.к возвращяет промис
         .unwrap()
         .then((res) => {
-          debugger;
+          console.log("this could be your validation");
         })
         .catch((data: BaseResponseType) => {
           const { fieldsErrors } = data;
-          console.log(fieldsErrors);
           fieldsErrors?.forEach((fieldError) => {
             formikHelpers.setFieldError(fieldError.field, fieldError.error);
           });

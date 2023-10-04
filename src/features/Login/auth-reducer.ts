@@ -45,7 +45,8 @@ const login = createAppAsyncThunk<
       dispatch(appActions.setAppStatus({ status: "succeeded" }));
       return { isLoggedIn: true };
     } else {
-      handleServerAppError(result.data, dispatch);
+      const isShowAppError = !result.data.fieldsErrors.length;
+      handleServerAppError(result.data, dispatch, isShowAppError);
       return rejectWithValue(result.data);
     }
   } catch (e) {
