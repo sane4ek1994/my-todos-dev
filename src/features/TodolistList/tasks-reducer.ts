@@ -1,10 +1,6 @@
-import { handleServerNetworkError } from "common/utils/handleServerNetworkError";
 import { appActions } from "app/app-reducer";
 import { createSlice, current } from "@reduxjs/toolkit";
-import {
-  todolistsActions,
-  todolistsThunks,
-} from "features/TodolistList/todolists-reducer";
+import { todolistsThunks } from "features/TodolistList/todolists-reducer";
 import { clearTasksAndTodolists } from "common/common-action";
 import { TaskType, UpdateTaskModelType } from "common/types/types";
 import { handleServerAppError } from "common/utils/handleServerAppError";

@@ -20,6 +20,7 @@ type IsValidArg<T> = T extends object
 type ActionCreatorResponse<T extends (...args: any[]) => any> = ReturnType<
   ReturnType<T>
 >;
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 type ReplaceReturnType<T, TNewReturn> = T extends (...args: any[]) => infer R
   ? IsValidArg<Extract<T, (...args: any[]) => any>> extends true
     ? (...args: Parameters<Extract<T, (...args: any[]) => any>>) => TNewReturn
