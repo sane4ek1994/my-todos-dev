@@ -10,13 +10,14 @@ import {
   Typography,
 } from "@mui/material";
 import { Menu } from "@mui/icons-material";
-import { useAppDispatch, useAppSelector } from "app/store";
+import { useAppSelector } from "app/store";
 import React, { useEffect } from "react";
 import { ErrorSnackbar } from "common/componets/ErrorSnackbar/ErrorSnackbar";
 import { Navigate, Route, Routes } from "react-router-dom";
 import { Login } from "features/Login/Login";
 import { TodosListLists } from "features/TodolistList/TodolistsList";
 import { authThunks } from "features/Login/auth-reducer";
+import { useActions } from "common/hooks/useAction";
 
 function App() {
   const isLoggedIn = useAppSelector<boolean>((state) => state.auth.isLoggedIn);
@@ -24,15 +25,15 @@ function App() {
     (state) => state.app.isInitialized
   );
   const status = useAppSelector((state) => state.app.status);
-  const dispatch = useAppDispatch();
+  const { logout, initializeApp } = useActions(authThunks);
 
   const logoutHandler = () => {
-    dispatch(authThunks.logout());
+    logout();
   };
 
   useEffect(() => {
-    dispatch(authThunks.initializeApp());
-  }, [dispatch]);
+    initializeApp();
+  }, [initializeApp]);
 
   if (!isInitialized) {
     return (

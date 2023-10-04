@@ -9,14 +9,17 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { FormikHelpers, useFormik } from "formik";
 import * as Yup from "yup";
-import { useAppDispatch, useAppSelector } from "app/store";
+import { useAppSelector } from "app/store";
 import { Navigate } from "react-router-dom";
 import { authThunks } from "features/Login/auth-reducer";
 import { BaseResponseType, LoginDataType } from "common/types/types";
+import { useActions } from "common/hooks/useAction";
 
 export const Login = () => {
   const isLoggedIn = useAppSelector<boolean>((state) => state.auth.isLoggedIn);
-  const dispatch = useAppDispatch();
+
+  const { login } = useActions(authThunks);
+
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -31,10 +34,10 @@ export const Login = () => {
         .required("Required"),
     }),
     onSubmit: (data, formikHelpers: FormikHelpers<LoginDataType>) => {
-      dispatch(authThunks.login({ data }))
+      login({ data })
         //Валидация через createAsyncThunk т.к возвращяет промис
         .unwrap()
-        .then((res) => {
+        .then(() => {
           console.log("this could be your validation");
         })
         .catch((data: BaseResponseType) => {
