@@ -46,7 +46,7 @@ const login = createAppAsyncThunk<
       return { isLoggedIn: true };
     } else {
       handleServerAppError(result.data, dispatch);
-      return rejectWithValue(null);
+      return rejectWithValue(result.data);
     }
   } catch (e) {
     handleServerNetworkError(e as string, dispatch);

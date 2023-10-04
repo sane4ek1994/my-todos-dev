@@ -7,6 +7,19 @@ export type ResponseType<D = {}> = {
   data: D;
 };
 
+export type FieldErrorType = {
+  error: string;
+  field: string;
+};
+
+//❗ Чтобы у нас не было пересечения имен наовем общий тип BaseResponseType
+export type BaseResponseType<D = {}> = {
+  resultCode: number;
+  messages: string[];
+  data: D;
+  fieldsErrors: FieldErrorType[];
+};
+
 export type TodolistsType = {
   id: string;
   addedDate: string;
@@ -22,6 +35,7 @@ export type LoginDataType = {
   email?: string;
   password?: string;
   rememberMe?: boolean;
+  captcha?: string;
 };
 
 export type UpdateTaskModelType = {
