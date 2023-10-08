@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { Task } from "./Task";
+import { Task } from "features/TodolistList/ui/Todolist/Tasks/Task/Task";
 import { ReduxStoreProviderDecorator } from "stories/ReduxStoreProviderDecorator";
 import { useSelector } from "react-redux";
 import { TAppRootState } from "app/store";
-import { todoListID2 } from "../../todolists-reducer";
+import { todoListID2 } from "features/TodolistList/model/todolists/todolistsSlice";
 import { TaskType } from "common/types/types";
 import { TaskStatuses, TodoTaskPriorities } from "common/enums/enums";
 

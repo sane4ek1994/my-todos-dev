@@ -1,11 +1,12 @@
 import React, { ChangeEvent, useCallback } from "react";
 import { Checkbox, IconButton } from "@mui/material";
-import { tasksThunks } from "../../tasks-reducer";
+import { tasksThunks } from "features/TodolistList/model/tasks/tasksSlice";
 import { EditableSpan } from "common/componets/EditableSpan/EditableSpan";
 import { DeleteForever } from "@mui/icons-material";
 import { TaskType } from "common/types/types";
 import { TaskStatuses } from "common/enums/enums";
 import { useActions } from "common/hooks/useAction";
+import s from "features/TodolistList/ui/Todolist/Tasks/Task/task.module.css";
 
 type TTaskProps = TaskType & {
   todolistId: string;
@@ -24,7 +25,7 @@ export const Task = React.memo(
         todolistId,
       });
 
-    const updateTitleSpan = useCallback(
+    const updateTitleTask = useCallback(
       (newTitle: string) =>
         updateTask({
           taskId: id,
@@ -38,14 +39,14 @@ export const Task = React.memo(
     return (
       <li
         key={id}
-        className={status === TaskStatuses.Completed ? "is-done" : ""}
+        className={status === TaskStatuses.Completed ? s.isDone : ""}
       >
         <Checkbox
           color="success"
           checked={status === TaskStatuses.Completed}
           onChange={changeIsDoneValue}
         />
-        <EditableSpan title={title} onChangeTitle={updateTitleSpan} />
+        <EditableSpan title={title} onChangeTitle={updateTitleTask} />
         <IconButton onClick={changeRemoveTask}>
           <DeleteForever />
         </IconButton>

@@ -10,9 +10,10 @@ import Button from "@mui/material/Button";
 import { useAppSelector } from "app/store";
 import { Navigate } from "react-router-dom";
 import { useLogin } from "features/Login/lib/useLogin";
+import { selectIsLoggedIn } from "features/Login/model/authSelectors";
 
 export const Login = () => {
-  const isLoggedIn = useAppSelector<boolean>((state) => state.auth.isLoggedIn);
+  const isLoggedIn = useAppSelector<boolean>(selectIsLoggedIn);
   const { formik } = useLogin();
 
   if (isLoggedIn) {

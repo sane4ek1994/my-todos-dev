@@ -1,10 +1,10 @@
 import { appActions } from "app/app-reducer";
 import { createSlice, current } from "@reduxjs/toolkit";
-import { todolistsThunks } from "features/TodolistList/todolists-reducer";
+import { todolistsThunks } from "features/TodolistList/model/todolists/todolistsSlice";
 import { clearTasksAndTodolists } from "common/common-action";
 import { TaskType, UpdateTaskModelType } from "common/types/types";
 import { handleServerAppError } from "common/utils/handleServerAppError";
-import { taskAPI } from "./task-api";
+import { taskAPI } from "features/TodolistList/api/task-api";
 import {
   RESULT_CODE,
   TaskStatuses,
@@ -151,7 +151,7 @@ const updateTask = createAppAsyncThunk<UpdateTaskArgType, UpdateTaskArgType>(
   }
 );
 
-export const tasksReducer = slice.reducer;
+export const tasksSlice = slice.reducer;
 export const tasksThunks = { fetchTask, addTask, removeTask, updateTask };
 
 export type UpdateDomainTaskModelType = {

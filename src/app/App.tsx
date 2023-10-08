@@ -1,4 +1,3 @@
-import S from "./App.module.css";
 import {
   AppBar,
   Button,
@@ -14,9 +13,9 @@ import { useAppSelector } from "app/store";
 import React, { useEffect } from "react";
 import { ErrorSnackbar } from "common/componets/ErrorSnackbar/ErrorSnackbar";
 import { Navigate, Route, Routes } from "react-router-dom";
-import { Login } from "features/Login/Login";
-import { TodosListLists } from "features/TodolistList/TodolistsList";
-import { authThunks } from "features/Login/auth-reducer";
+import { Login } from "features/Login/ui/Login";
+import { TodosListLists } from "features/TodolistList/ui/TodolistsList";
+import { authThunks } from "features/Login/model/authSlice";
 import { useActions } from "common/hooks/useAction";
 
 function App() {
@@ -51,7 +50,7 @@ function App() {
   }
 
   return (
-    <div className={S.App}>
+    <div>
       <ErrorSnackbar />
       <AppBar position="static">
         <Toolbar>

@@ -4,9 +4,9 @@ import {
   todoListID1,
   todoListID2,
   todolistsActions,
-  todolistsReducer,
+  todolistsSlice,
   todolistsThunks,
-} from "./todolists-reducer";
+} from "features/TodolistList/model/todolists/todolistsSlice";
 import { RequestStatusType } from "app/app-reducer";
 
 let startState: TodolistDomainType[];
@@ -33,7 +33,7 @@ beforeEach(() => {
 });
 
 test("correct todolist should be removed", () => {
-  const endState: TodolistDomainType[] = todolistsReducer(
+  const endState: TodolistDomainType[] = todolistsSlice(
     startState,
     todolistsThunks.removeTodolist.fulfilled(
       { todolistId: todoListID1 },
@@ -55,7 +55,7 @@ test("correct todolist should be added", () => {
     order: 0,
   };
 
-  const endState: TodolistDomainType[] = todolistsReducer(
+  const endState: TodolistDomainType[] = todolistsSlice(
     startState,
     todolistsThunks.createTodolist.fulfilled({ todo: newTodos }, "requestId", {
       title: "Hobby list",
@@ -68,7 +68,7 @@ test("correct todolist should be added", () => {
 
 test("correct title of todolist should be changed", () => {
   const newTitle = "Im new title";
-  const endState: TodolistDomainType[] = todolistsReducer(
+  const endState: TodolistDomainType[] = todolistsSlice(
     startState,
     todolistsThunks.updateTitleTodolist.fulfilled(
       {
@@ -92,7 +92,7 @@ test("should todos be set to state", () => {
     { todos: startState },
     "reuestId"
   );
-  const endState: TodolistDomainType[] = todolistsReducer([], action);
+  const endState: TodolistDomainType[] = todolistsSlice([], action);
 
   expect(endState.length).toBe(2);
 });
@@ -100,7 +100,7 @@ test("should todos be set to state", () => {
 test("correct filter of todolist should be changed", () => {
   const newFilter: TFilterTask = "completed";
 
-  const endState = todolistsReducer(
+  const endState = todolistsSlice(
     startState,
     todolistsActions.changeTodolistFilter({
       id: todoListID1,
@@ -115,7 +115,7 @@ test("correct filter of todolist should be changed", () => {
 test("todolist changed entityStatus", () => {
   const newStatus: RequestStatusType = "loading";
 
-  const endState = todolistsReducer(
+  const endState = todolistsSlice(
     startState,
     todolistsActions.setTodolistEntityStatus({
       entityStatus: newStatus,

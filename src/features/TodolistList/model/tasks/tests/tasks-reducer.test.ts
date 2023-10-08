@@ -1,11 +1,14 @@
-import { tasksReducer, tasksThunks, TTasksState } from "./tasks-reducer";
+import {
+  tasksSlice,
+  tasksThunks,
+  TTasksState,
+} from "features/TodolistList/model/tasks/tasksSlice";
 
 import {
   todoListID1,
   todoListID2,
-  todolistsActions,
   todolistsThunks,
-} from "./todolists-reducer";
+} from "features/TodolistList/model/todolists/todolistsSlice";
 import { v1 } from "uuid";
 import { TaskStatuses, TodoTaskPriorities } from "common/enums/enums";
 
@@ -153,7 +156,7 @@ test("remove task", () => {
     }
   );
 
-  const endState: TTasksState = tasksReducer(startState, action);
+  const endState: TTasksState = tasksSlice(startState, action);
 
   expect(endState[todoListID1].length).toBe(4);
   expect(endState[todoListID2].length).toBe(5);
@@ -178,7 +181,7 @@ test("added new tasks", () => {
     todolistId: "1",
   });
 
-  const endState: TTasksState = tasksReducer(startState, action);
+  const endState: TTasksState = tasksSlice(startState, action);
 
   expect(endState[todoListID1].length).toBe(6);
   expect(endState[todoListID1][0].title).toBe(task.title);
@@ -200,7 +203,7 @@ test("change task title", () => {
     taskNewTitle
   );
 
-  const endState: TTasksState = tasksReducer(startState, action);
+  const endState: TTasksState = tasksSlice(startState, action);
 
   expect(endState[todoListID1][0].title).toBe("HTML&CSS");
   expect(startState[todoListID2][0].title).toBe("Pizzza 🍕");
@@ -221,7 +224,7 @@ test("change task isDone", () => {
     taskNewStatus
   );
 
-  const endState: TTasksState = tasksReducer(startState, action);
+  const endState: TTasksState = tasksSlice(startState, action);
 
   expect(startState[todoListID2]).not.toEqual(endState[todoListID2]);
   expect(endState[todoListID2][0].status).toBe(TaskStatuses.New);
@@ -249,7 +252,7 @@ test("new property array should be added when new todolist is added", () => {
     { title: "Todo list" }
   );
 
-  const endState: TTasksState = tasksReducer(startState, action);
+  const endState: TTasksState = tasksSlice(startState, action);
 
   const keys = Object.keys(endState);
   const newKey = keys.find((k) => k !== todoListID1 && k !== todoListID2);
@@ -261,7 +264,7 @@ test("new property array should be added when new todolist is added", () => {
   expect(endState[newKey]).toEqual([]);
 });
 test("empty array should be added when set todolist", () => {
-  const endState = tasksReducer({}, action);
+  const endState = tasksSlice({}, action);
 
   const keys = Object.keys(endState);
 
@@ -276,7 +279,7 @@ test("property array should be added when new todolist is removed", () => {
     "requestId",
     { todolistId: todoListID2 }
   );
-  const endState: TTasksState = tasksReducer(startState, action);
+  const endState: TTasksState = tasksSlice(startState, action);
 
   const keys = Object.keys(endState);
 
@@ -291,7 +294,7 @@ test("task should be added for todos", () => {
     todoListID1
   );
 
-  const endState = tasksReducer(
+  const endState = tasksSlice(
     {
       todoListID1: [],
 
