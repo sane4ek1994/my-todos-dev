@@ -3,7 +3,7 @@ import { todolistsSlice } from "features/TodolistList/model/todolists/todolistsS
 import { tasksSlice } from "features/TodolistList/model/tasks/tasksSlice";
 import { ThunkDispatch } from "redux-thunk";
 import { TypedUseSelectorHook, useSelector } from "react-redux";
-import { appSlice } from "app/appSlice";
+import { appSlice } from "app/model/appSlice";
 import { authSlice } from "features/Login/model/authSlice";
 import { configureStore } from "@reduxjs/toolkit";
 

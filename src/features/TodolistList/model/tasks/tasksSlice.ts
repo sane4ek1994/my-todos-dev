@@ -1,4 +1,4 @@
-import { appActions } from "app/appSlice";
+import { appActions } from "app/model/appSlice";
 import { createSlice, current } from "@reduxjs/toolkit";
 import { todolistsThunks } from "features/TodolistList/model/todolists/todolistsSlice";
 import { clearTasksAndTodolists } from "common/common-action";

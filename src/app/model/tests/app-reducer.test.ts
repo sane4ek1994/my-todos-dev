@@ -1,4 +1,4 @@
-import { appActions, appSlice, TAppState } from "app/appSlice";
+import { appActions, appSlice, TAppState } from "app/model/appSlice";
 
 let startState: TAppState;
 

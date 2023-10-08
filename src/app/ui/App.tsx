@@ -17,13 +17,13 @@ import { Login } from "features/Login/ui/Login";
 import { TodosListLists } from "features/TodolistList/ui/TodolistsList";
 import { authThunks } from "features/Login/model/authSlice";
 import { useActions } from "common/hooks/useAction";
+import { selectIsLoggedIn } from "features/Login/model/authSelectors";
+import { selectIsInitialized, selectStatus } from "app/model/appSelectors";
 
 function App() {
-  const isLoggedIn = useAppSelector<boolean>((state) => state.auth.isLoggedIn);
-  const isInitialized = useAppSelector<boolean>(
-    (state) => state.app.isInitialized
-  );
-  const status = useAppSelector((state) => state.app.status);
+  const isLoggedIn = useAppSelector(selectIsLoggedIn);
+  const isInitialized = useAppSelector(selectIsInitialized);
+  const status = useAppSelector(selectStatus);
   const { logout, initializeApp } = useActions(authThunks);
 
   const logoutHandler = () => {

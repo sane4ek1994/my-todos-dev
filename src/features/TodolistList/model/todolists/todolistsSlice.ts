@@ -1,5 +1,5 @@
 import { v1 } from "uuid";
-import { RequestStatusType } from "app/appSlice";
+import { RequestStatusType } from "app/model/appSlice";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { todolistAPI } from "features/TodolistList/api/todolists-api";
 import { RESULT_CODE } from "common/enums/enums";
