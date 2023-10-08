@@ -7,7 +7,7 @@ import {
   todolistsSlice,
   todolistsThunks,
 } from "features/TodolistList/model/todolists/todolistsSlice";
-import { RequestStatusType } from "app/app-reducer";
+import { RequestStatusType } from "app/appSlice";
 
 let startState: TodolistDomainType[];
 

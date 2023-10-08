@@ -1,6 +1,7 @@
 import React, { ChangeEvent, KeyboardEvent, useState } from "react";
 import { IconButton, TextField } from "@mui/material";
 import { PlaylistAdd } from "@mui/icons-material";
+import { BaseResponseType } from "common/types/types";
 
 export type TAddItemForm = {
   addItem: (title: string) => Promise<any | string>;
@@ -25,14 +26,13 @@ export const AddItemForm = React.memo(({ addItem }: TAddItemForm) => {
     if (title) {
       addItem(newTitle)
         .then(() => {
-          debugger;
           setTitle("");
         })
-        .catch((err) => {
-          setTitle(err.message);
+        .catch((err: BaseResponseType) => {
+          if (err?.resultCode) {
+            setError(err.messages[0]);
+          }
         });
-
-      return;
     }
 
     return setError("Title is required!");

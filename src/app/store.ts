@@ -3,7 +3,7 @@ import { todolistsSlice } from "features/TodolistList/model/todolists/todolistsS
 import { tasksSlice } from "features/TodolistList/model/tasks/tasksSlice";
 import { ThunkDispatch } from "redux-thunk";
 import { TypedUseSelectorHook, useSelector } from "react-redux";
-import { appReducer } from "app/app-reducer";
+import { appSlice } from "app/appSlice";
 import { authSlice } from "features/Login/model/authSlice";
 import { configureStore } from "@reduxjs/toolkit";
 
@@ -13,7 +13,7 @@ export const store = configureStore({
   reducer: {
     todolists: todolistsSlice,
     tasks: tasksSlice,
-    app: appReducer,
+    app: appSlice,
     auth: authSlice,
   },
 });

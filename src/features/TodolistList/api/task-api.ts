@@ -2,7 +2,6 @@ import { instance } from "api/common-api";
 import {
   BaseResponseType,
   GetTaskResponseType,
-  TaskResponseType,
   TaskType,
   UpdateTaskModelType,
 } from "common/types/types";

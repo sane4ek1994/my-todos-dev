@@ -1,43 +1,29 @@
-import {
-    appActions,
-    appReducer,
-    TAppState
-} from "./app-reducer";
+import { appActions, appSlice, TAppState } from "app/appSlice";
 
-
-let startState: TAppState
+let startState: TAppState;
 
 beforeEach(() => {
-    startState = {
-        isInitialized: false,
-        status: "idle",
-        error: null
-    }
-})
+  startState = {
+    isInitialized: false,
+    status: "idle",
+    error: null,
+  };
+});
 
+test("setting initialized app", () => {
+  const endState = appSlice(
+    startState,
+    appActions.setIsInitialized({ isInitialized: true })
+  );
 
-test('setting initialized app', () => {
+  expect(endState.isInitialized).toBeTruthy();
+});
 
-    const endState = appReducer(startState, appActions.setIsInitialized({isInitialized: true}))
+test("setting app error", () => {
+  const error = "Error network!";
 
-    expect(endState.isInitialized).toBeTruthy()
+  const endState = appSlice(startState, appActions.setAppError({ error }));
 
-})
-
-test('changed app status', () => {
-    const newStatus = 'succeeded'
-
-    const endState = appReducer(startState, appActions.setAppStatus({status: newStatus}))
-
-    expect(endState.status).toBe(newStatus)
-
-})
-
-test('setting app error', () => {
-    const error = 'Error network!'
-
-    const endState = appReducer(startState, appActions.setAppError({error}))
-
-    expect(endState.error).toBe(error)
-    expect(endState.error).not.toBe(null)
-})
+  expect(endState.error).toBe(error);
+  expect(endState.error).not.toBe(null);
+});
