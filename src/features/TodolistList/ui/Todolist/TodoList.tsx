@@ -19,7 +19,7 @@ export const TodoList = React.memo(({ todolist }: Props) => {
   }, [todolist.id, fetchTask]);
 
   const addTaskCallback = (title: string) =>
-    addTask({ todolistId: todolist.id, title });
+    addTask({ todolistId: todolist.id, title }).unwrap();
 
   return (
     <div>

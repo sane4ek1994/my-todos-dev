@@ -1,6 +1,6 @@
 import { appActions } from "app/app-reducer";
 import { Dispatch } from "redux";
-import { ResponseType } from "common/types/types";
+import { BaseResponseType } from "common/types/types";
 
 /**
  * Данная функция обрабатывает ошибки, которые могут возникнуть при взаимодействии с сервером.
@@ -9,7 +9,7 @@ import { ResponseType } from "common/types/types";
  * @param showError - флаг, указывающий, нужно ли отображать ошибки в пользовательском интерфейсе
  */
 export const handleServerAppError = <D>(
-  data: ResponseType<D>,
+  data: BaseResponseType<D>,
   dispatch: Dispatch,
   showError: boolean = true
 ) => {

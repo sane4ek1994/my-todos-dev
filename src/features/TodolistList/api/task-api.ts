@@ -1,6 +1,6 @@
 import { instance } from "api/common-api";
 import {
-  CreateTaskResponseType,
+  BaseResponseType,
   GetTaskResponseType,
   TaskResponseType,
   TaskType,
@@ -13,21 +13,23 @@ export const taskAPI = {
   },
 
   createTask(todolistId: string, title: string) {
-    return instance.post<TaskResponseType<CreateTaskResponseType>>(
+    return instance.post<BaseResponseType<{ item: TaskType }>>(
       `todo-lists/${todolistId}/tasks`,
-      { title }
+      {
+        title,
+      }
     );
   },
 
   updateTask(todolistId: string, taskId: string, model: UpdateTaskModelType) {
-    return instance.put<TaskResponseType<{ item: TaskType }>>(
+    return instance.put<BaseResponseType<TaskType>>(
       `todo-lists/${todolistId}/tasks/${taskId}`,
       model
     );
   },
 
   deleteTask(todolistId: string, taskId: string) {
-    return instance.delete<TaskResponseType>(
+    return instance.delete<BaseResponseType>(
       `todo-lists/${todolistId}/tasks/${taskId}`
     );
   },

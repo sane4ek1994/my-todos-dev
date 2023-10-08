@@ -94,7 +94,7 @@ const addTask = createAppAsyncThunk<
       return { task };
     } else {
       handleServerAppError(res.data, dispatch);
-      return rejectWithValue(null);
+      return rejectWithValue(res.data);
     }
   });
 });

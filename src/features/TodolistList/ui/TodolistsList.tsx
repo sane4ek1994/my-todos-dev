@@ -4,33 +4,28 @@ import {
   todolistsThunks,
 } from "features/TodolistList/model/todolists/todolistsSlice";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
-import React, { useCallback, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Navigate } from "react-router-dom";
 import { Grid, Paper } from "@mui/material";
 import { AddItemForm } from "common/componets/AddItemForm/AddItemForm";
 import { TodoList } from "features/TodolistList/ui/Todolist/TodoList";
-import { useAppDispatch } from "common/hooks/useAppDispatch";
 import { selectTodolists } from "features/TodolistList/model/todolists/todolistsSelectors";
 import { selectIsLoggedIn } from "features/Login/model/authSelectors";
+import { useActions } from "common/hooks/useAction";
 
 export const TodosListLists = () => {
   const isLoggedIn = useAppSelector<boolean>(selectIsLoggedIn);
   const todolists = useAppSelector<TodolistDomainType[]>(selectTodolists);
-  const dispatch = useAppDispatch();
+  const { createTodolist, fetchTodolists } = useActions(todolistsThunks);
 
   const [parent] = useAutoAnimate();
 
-  const addTodoList = useCallback(
-    (title: string) => {
-      dispatch(todolistsThunks.createTodolist({ title }));
-    },
-    [dispatch]
-  );
+  const addTodoList = (title: string) => createTodolist({ title }).unwrap();
 
   useEffect(() => {
     if (!isLoggedIn) return;
-    dispatch(todolistsThunks.fetchTodolists());
-  }, [dispatch, isLoggedIn]);
+    fetchTodolists();
+  }, [fetchTodolists, isLoggedIn]);
 
   if (!isLoggedIn) {
     return <Navigate to={"/login"} />;
