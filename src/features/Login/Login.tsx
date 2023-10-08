@@ -7,47 +7,13 @@ import FormGroup from "@mui/material/FormGroup";
 import FormLabel from "@mui/material/FormLabel";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import { FormikHelpers, useFormik } from "formik";
-import * as Yup from "yup";
 import { useAppSelector } from "app/store";
 import { Navigate } from "react-router-dom";
-import { authThunks } from "features/Login/auth-reducer";
-import { BaseResponseType, LoginDataType } from "common/types/types";
-import { useActions } from "common/hooks/useAction";
+import { useLogin } from "features/Login/lib/useLogin";
 
 export const Login = () => {
   const isLoggedIn = useAppSelector<boolean>((state) => state.auth.isLoggedIn);
-
-  const { login } = useActions(authThunks);
-
-  const formik = useFormik({
-    initialValues: {
-      email: "",
-      password: "",
-      rememberMe: false,
-    },
-    // Обычная валидация
-    validationSchema: Yup.object({
-      email: Yup.string().email("Invalid email address").required("Required"),
-      password: Yup.string()
-        .min(3, "must be at least 3 characters long")
-        .required("Required"),
-    }),
-    onSubmit: (data, formikHelpers: FormikHelpers<LoginDataType>) => {
-      login({ data })
-        //Валидация через createAsyncThunk т.к возвращяет промис
-        .unwrap()
-        .then(() => {
-          console.log("this could be your validation");
-        })
-        .catch((data: BaseResponseType) => {
-          const { fieldsErrors } = data;
-          fieldsErrors?.forEach((fieldError) => {
-            formikHelpers.setFieldError(fieldError.field, fieldError.error);
-          });
-        });
-    },
-  });
+  const { formik } = useLogin();
 
   if (isLoggedIn) {
     return <Navigate to={"/"} />;
