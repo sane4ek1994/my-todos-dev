@@ -10,10 +10,15 @@ import Button from "@mui/material/Button";
 import { useAppSelector } from "app/store";
 import { Navigate } from "react-router-dom";
 import { useLogin } from "features/Login/lib/useLogin";
-import { selectIsLoggedIn } from "features/Login/model/authSelectors";
+import {
+  selectCaptcha,
+  selectIsLoggedIn,
+} from "features/Login/model/authSelectors";
+import { Captcha } from "features/Login/ui/Captcha/Captcha";
 
 export const Login = () => {
   const isLoggedIn = useAppSelector<boolean>(selectIsLoggedIn);
+  const captcha = useAppSelector<string | null>(selectCaptcha);
   const { formik } = useLogin();
 
   if (isLoggedIn) {
@@ -65,6 +70,7 @@ export const Login = () => {
                 label={"Remember me"}
                 control={<Checkbox {...formik.getFieldProps("rememberMe")} />}
               />
+              {captcha ? <Captcha captcha={captcha} formik={formik} /> : null}
               <Button type={"submit"} variant={"contained"} color={"primary"}>
                 Login
               </Button>

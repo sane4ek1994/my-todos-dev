@@ -1,6 +1,7 @@
 import { authActions, authSlice } from "features/Login/model/authSlice";
 
 type TAuthState = {
+  captcha: string | null;
   isLoggedIn: boolean;
 };
 
@@ -8,6 +9,7 @@ let startState: TAuthState;
 
 beforeEach(() => {
   startState = {
+    captcha: null,
     isLoggedIn: false,
   };
 });

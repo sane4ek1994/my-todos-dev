@@ -15,6 +15,7 @@ export const useLogin = () => {
       email: "",
       password: "",
       rememberMe: false,
+      captcha: "",
     },
     // Обычная валидация
     validationSchema: Yup.object({
@@ -22,6 +23,7 @@ export const useLogin = () => {
       password: Yup.string()
         .min(3, "must be at least 3 characters long")
         .required("Required"),
+      captcha: Yup.string(),
     }),
     onSubmit: (data, formikHelpers: FormikHelpers<LoginDataType>) => {
       login({ data })
