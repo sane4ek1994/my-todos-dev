@@ -13,4 +13,7 @@ export const authAPI = {
   me() {
     return instance.get("auth/me");
   },
+  getCaptcha() {
+    return instance.get<{ url: string }>("security/get-captcha-url");
+  },
 };

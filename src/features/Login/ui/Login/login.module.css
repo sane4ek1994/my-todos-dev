@@ -1,0 +1,5 @@
+.captchaContainer {
+    padding: 10px 0;
+    display: flex;
+    gap: 7px;
+}

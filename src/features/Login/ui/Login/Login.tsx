@@ -10,15 +10,33 @@ import Button from "@mui/material/Button";
 import { useAppSelector } from "app/store";
 import { Navigate } from "react-router-dom";
 import { useLogin } from "features/Login/lib/useLogin";
-import { selectIsLoggedIn } from "features/Login/model/authSelectors";
+import {
+  selectCaptcha,
+  selectIsLoggedIn,
+} from "features/Login/model/authSelectors";
+import s from "features/Login/ui/Login/login.module.css";
 
 export const Login = () => {
   const isLoggedIn = useAppSelector<boolean>(selectIsLoggedIn);
+  const captcha = useAppSelector<string | null>(selectCaptcha);
   const { formik } = useLogin();
 
   if (isLoggedIn) {
     return <Navigate to={"/"} />;
   }
+
+  const captchaView = (
+    <div className={s.captchaContainer}>
+      <img src={captcha ? captcha : ""} alt="captha" />
+      <TextField
+        variant="standard"
+        type="text"
+        label="Captcha"
+        margin="normal"
+        {...formik.getFieldProps("captcha")}
+      />
+    </div>
+  );
 
   return (
     <Grid container justifyContent={"center"}>
@@ -65,6 +83,7 @@ export const Login = () => {
                 label={"Remember me"}
                 control={<Checkbox {...formik.getFieldProps("rememberMe")} />}
               />
+              {captcha ? captchaView : null}
               <Button type={"submit"} variant={"contained"} color={"primary"}>
                 Login
               </Button>
