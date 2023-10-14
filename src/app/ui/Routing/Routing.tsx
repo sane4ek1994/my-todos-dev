@@ -1,7 +1,7 @@
 import React from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 import { TodosListLists } from "features/TodolistList/ui/TodolistsList";
-import { Login } from "features/Login/ui/Login";
+import { Login } from "features/Login/ui/Login/Login";
 
 export const Routing = () => {
   return (

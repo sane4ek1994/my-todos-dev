@@ -1,4 +1,8 @@
-import { authActions, authSlice } from "features/Login/model/authSlice";
+import {
+  authActions,
+  authSlice,
+  authThunks,
+} from "features/Login/model/authSlice";
 
 type TAuthState = {
   captcha: string | null;
@@ -21,4 +25,15 @@ test("toggle is isLoggedIn", () => {
   );
 
   expect(endState.isLoggedIn).toBeTruthy();
+});
+
+test("get captcha", () => {
+  const endState = authSlice(
+    startState,
+    authThunks.captcha.fulfilled({ url: "test_link" }, "requestId", undefined)
+  );
+
+  expect(startState.captcha).toBeNull();
+  expect(endState.captcha).not.toBeNull();
+  expect(typeof endState.captcha).toBe("string");
 });

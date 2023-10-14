@@ -14,7 +14,7 @@ import {
   selectCaptcha,
   selectIsLoggedIn,
 } from "features/Login/model/authSelectors";
-import { Captcha } from "features/Login/ui/Captcha/Captcha";
+import s from "features/Login/ui/Login/login.module.css";
 
 export const Login = () => {
   const isLoggedIn = useAppSelector<boolean>(selectIsLoggedIn);
@@ -24,6 +24,19 @@ export const Login = () => {
   if (isLoggedIn) {
     return <Navigate to={"/"} />;
   }
+
+  const captchaView = (
+    <div className={s.captchaContainer}>
+      <img src={captcha ? captcha : ""} alt="captha" />
+      <TextField
+        variant="standard"
+        type="text"
+        label="Captcha"
+        margin="normal"
+        {...formik.getFieldProps("captcha")}
+      />
+    </div>
+  );
 
   return (
     <Grid container justifyContent={"center"}>
@@ -70,7 +83,7 @@ export const Login = () => {
                 label={"Remember me"}
                 control={<Checkbox {...formik.getFieldProps("rememberMe")} />}
               />
-              {captcha ? <Captcha captcha={captcha} formik={formik} /> : null}
+              {captcha ? captchaView : null}
               <Button type={"submit"} variant={"contained"} color={"primary"}>
                 Login
               </Button>
