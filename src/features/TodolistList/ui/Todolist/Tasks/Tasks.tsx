@@ -7,6 +7,8 @@ import { useAppSelector } from "app/store";
 import { selectTasks } from "features/TodolistList/model/tasks/tasksSelectors";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 
+import s from "./tasks.module.css";
+
 type Props = {
   todolist: TodolistDomainType;
 };
@@ -28,9 +30,13 @@ export const Tasks = ({ todolist }: Props) => {
 
   return (
     <ul ref={parent}>
-      {filterTaskHandler().map((t) => (
-        <Task key={t.id} todolistId={todolist.id} {...t} />
-      ))}
+      {filterTaskHandler()?.length === 0 ? (
+        <span className={s.taskText}>Create task...</span>
+      ) : (
+        filterTaskHandler().map((t) => (
+          <Task key={t.id} todolistId={todolist.id} {...t} />
+        ))
+      )}
     </ul>
   );
 };
