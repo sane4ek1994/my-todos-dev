@@ -2,12 +2,10 @@ import React from "react";
 import {
   AppBar,
   Button,
-  IconButton,
   LinearProgress,
   Toolbar,
   Typography,
 } from "@mui/material";
-import { Menu } from "@mui/icons-material";
 import { useAppSelector } from "app/store";
 import { selectIsLoggedIn } from "features/Login/model/authSelectors";
 import { selectStatus } from "app/model/appSelectors";
@@ -25,17 +23,8 @@ export const Header = () => {
   return (
     <AppBar position="static">
       <Toolbar>
-        <IconButton
-          size="large"
-          edge="start"
-          color="inherit"
-          aria-label="menu"
-          sx={{ mr: 2 }}
-        >
-          <Menu />
-        </IconButton>
         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-          Todo-list
+          Todos
         </Typography>
         {isLoggedIn && (
           <Button color="inherit" onClick={logoutHandler}>
