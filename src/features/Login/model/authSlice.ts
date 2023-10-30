@@ -17,11 +17,7 @@ const initialState: AuthSliceType = {
 const slice = createSlice({
   name: "auth",
   initialState,
-  reducers: {
-    setIsLoggedIn: (state, action: PayloadAction<{ isLoggedIn: boolean }>) => {
-      state.isLoggedIn = action.payload.isLoggedIn;
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(authThunks.captcha.fulfilled, (state, action) => {
