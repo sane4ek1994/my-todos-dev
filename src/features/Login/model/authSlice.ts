@@ -1,4 +1,4 @@
-import { createSlice, isAnyOf, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, isAnyOf } from "@reduxjs/toolkit";
 import { authAPI } from "features/Login/api/auth-api";
 import { RESULT_CODE } from "common/enums/enums";
 import { LoginDataType } from "common/types/types";
